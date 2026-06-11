@@ -1,0 +1,259 @@
+/* About 协会简介样式 */
+.about {
+  padding: var(--spacing-3xl) 0;
+  background-color: var(--bg-secondary);
+}
+
+.aboutContainer {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.sectionTag {
+  display: inline-block;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background-color: var(--primary-light);
+  color: var(--text-white);
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--spacing-md);
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.sectionTitle span {
+  color: var(--primary-color);
+}
+
+.sectionDescription {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.aboutContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-3xl);
+  align-items: center;
+}
+
+.aboutImageWrapper {
+  position: relative;
+}
+
+.aboutImage {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.aboutImageBadge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background-color: var(--primary-color);
+  color: var(--text-white);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.aboutImageBadgeNumber {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.aboutImageBadgeText {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.aboutText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.aboutTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.aboutParagraph {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.aboutFeatures {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.aboutFeature {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.aboutFeature:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.aboutFeatureIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-light);
+  color: var(--text-white);
+  border-radius: var(--radius-md);
+}
+
+.aboutFeatureIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.aboutFeatureText {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 统计数据 */
+.aboutStats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-3xl);
+  padding: var(--spacing-2xl);
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary-color);
+  line-height: 1;
+  margin-bottom: var(--spacing-sm);
+}
+
+.statNumber span {
+  color: var(--accent-dark);
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .aboutContent {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .aboutImageWrapper {
+    order: -1;
+  }
+
+  .aboutImage {
+    height: 350px;
+  }
+
+  .aboutStats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .aboutImage {
+    height: 280px;
+  }
+
+  .aboutImageBadge {
+    bottom: -15px;
+    right: 15px;
+    padding: var(--spacing-md);
+  }
+
+  .aboutImageBadgeNumber {
+    font-size: 2rem;
+  }
+
+  .aboutFeatures {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutStats {
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutContainer {
+    padding: 0 var(--spacing-md);
+  }
+
+  .aboutImageBadge {
+    right: 10px;
+  }
+
+  .statNumber {
+    font-size: 1.8rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
+  }
+}

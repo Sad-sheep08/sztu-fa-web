@@ -28,8 +28,8 @@ const slides: Slide[] = [
     id: 3,
     title: '青春热血 <span>绿茵飞扬</span>',
     description: '每一场比赛都是成长的机会，每一次训练都是进步的阶梯',
-    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80',
-    thumb: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=60',
+    image: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=1920&q=80',
+    thumb: 'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=60',
   },
 ];
 

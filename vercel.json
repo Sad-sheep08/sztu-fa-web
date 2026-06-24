@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api.sztufa.xyz/api/v1/:path*"
+      "destination": "https://api.sztufa.xyz/api/:path*"
     },
     {
       "source": "/:path*",

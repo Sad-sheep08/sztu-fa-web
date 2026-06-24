@@ -1,6 +1,6 @@
 import type { Team, Player, Match, PaginatedResponse, TeamWithPlayers } from '../types';
 
-const BASE_URL = '/api/v1';
+const BASE_URL = '/api';
 
 export async function fetchTeams(
   page: number = 1,

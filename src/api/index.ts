@@ -1,6 +1,6 @@
 import type { Team, Player, Match, PaginatedResponse, TeamWithPlayers } from '../types';
 
-const BASE_URL = 'https://sztufa-server.vercel.app/api/v1';
+const BASE_URL = '/api/v1';
 
 export async function fetchTeams(
   page: number = 1,

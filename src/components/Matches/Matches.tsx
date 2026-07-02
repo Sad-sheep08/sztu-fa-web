@@ -507,20 +507,21 @@ const Matches: React.FC = () => {
         {selectedMatchForModal && (
           <div className="matchModalOverlay" onClick={() => setSelectedMatchForModal(null)}>
             <div className="matchModal" onClick={(e) => e.stopPropagation()}>
-              <button className="modalClose" onClick={() => setSelectedMatchForModal(null)}>
+              <button className="matchModalClose" onClick={() => setSelectedMatchForModal(null)}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               </button>
-              <div className="modalHeader">
-                <span className="matchStatus" style={{ backgroundColor: statusColors[selectedMatchForModal.status] }}>
+              
+              <div className="matchModalHeader">
+                <span className="matchModalStatus" style={{ backgroundColor: statusColors[selectedMatchForModal.status] }}>
                   {statusMap[selectedMatchForModal.status]}
                 </span>
-                <span className="matchDate">{formatDate(selectedMatchForModal.matchDate)}</span>
+                <span className="matchModalHeaderTitle">赛事回顾</span>
               </div>
 
-              <div className="modalBody">
+              <div className="matchModalBody">
                 <div className="matchScoreBoxLarge">
                   <div className="modalTeam">
                     <div className="modalTeamLogo">
@@ -543,12 +544,12 @@ const Matches: React.FC = () => {
 
                 <div className="matchInfoDetails">
                   <div className="infoItem">
-                    <span className="infoLabel">比赛地点</span>
-                    <span className="infoValue">📍 {selectedMatchForModal.location || '学校足球场'}</span>
+                    <span className="infoLabel">📍 比赛地点</span>
+                    <span className="infoValue">{selectedMatchForModal.location || '学校足球场'}</span>
                   </div>
                   <div className="infoItem">
-                    <span className="infoLabel">比赛时间</span>
-                    <span className="infoValue">📅 {formatDate(selectedMatchForModal.matchDate)}</span>
+                    <span className="infoLabel">📅 比赛时间</span>
+                    <span className="infoValue">{formatDate(selectedMatchForModal.matchDate)}</span>
                   </div>
                 </div>
 
@@ -577,7 +578,9 @@ const Matches: React.FC = () => {
                               return (
                                 <div key={i} className="timelineItem">
                                   <span className="eventTime">{e.eventTime}</span>
-                                  <span className="eventIcon">{icon}</span>
+                                  <span className={`eventIconContainer eventIcon-${e.eventType}`}>
+                                    {icon}
+                                  </span>
                                   <span className="eventDesc">
                                     {e.eventType === 'substitution' ? (
                                       <span>
@@ -628,7 +631,9 @@ const Matches: React.FC = () => {
                               return (
                                 <div key={i} className="timelineItem">
                                   <span className="eventTime">{e.eventTime}</span>
-                                  <span className="eventIcon">{icon}</span>
+                                  <span className={`eventIconContainer eventIcon-${e.eventType}`}>
+                                    {icon}
+                                  </span>
                                   <span className="eventDesc">
                                     {e.eventType === 'substitution' ? (
                                       <span>

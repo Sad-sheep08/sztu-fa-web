@@ -585,46 +585,37 @@
   margin-bottom: var(--spacing-xs);
 }
 
-.goalsGrid {
+.eventsGrid {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: var(--spacing-md);
   align-items: start;
 }
 
-.homeGoals {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.awayGoals {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.goalsDivider {
+.eventsGridDivider {
   background-color: var(--border-color);
   align-self: stretch;
+  width: 1px;
 }
 
-.goalItem {
-  font-size: 0.9rem;
-  color: var(--text-primary);
-  display: block;
+.teamEvents {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
-.matchEventsList {
-  margin-top: var(--spacing-sm);
+.noEvents {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: var(--spacing-sm) 0;
 }
 
 .eventsTimeline {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   background-color: var(--bg-primary);
   padding: var(--spacing-md);
   border-radius: var(--radius-lg);
@@ -637,6 +628,7 @@
   gap: var(--spacing-sm);
   font-size: 0.9rem;
   color: var(--text-primary);
+  padding: 4px 0;
 }
 
 .eventTime {
@@ -651,4 +643,14 @@
 
 .eventDesc {
   color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .eventsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  .eventsGridDivider {
+    display: none;
+  }
 }

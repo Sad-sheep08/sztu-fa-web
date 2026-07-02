@@ -42,9 +42,12 @@ export interface MatchEvent {
   id: string;
   matchId: string;
   eventTime: string;
-  eventType: 'yellow_card' | 'red_card' | 'substitution' | 'water_break';
+  eventType: 'goal' | 'yellow_card' | 'red_card' | 'substitution';
+  playerId?: string | null;
+  playerName?: string | null;
+  jerseyNumber?: string | null;
   description: string;
-  teamType: 'home' | 'away' | 'none';
+  teamType: 'home' | 'away';
   createdAt: string;
 }
 

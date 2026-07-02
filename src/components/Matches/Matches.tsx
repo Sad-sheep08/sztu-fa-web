@@ -269,49 +269,75 @@ const Matches: React.FC = () => {
                   </div>
 
                   {/* 进球与事件面板 */}
-                  {match.status === 'completed' && ((match.goals && match.goals.length > 0) || (match.events && match.events.length > 0)) && (
+                  {match.status === 'completed' && match.events && match.events.length > 0 && (
                     <div className="matchEventsSection">
-                      {/* 进球记录 */}
-                      {match.goals && match.goals.length > 0 && (
-                        <div className="matchGoalsList">
-                          <div className="eventLabel">⚽ 进球记录</div>
-                          <div className="goalsGrid">
-                            <div className="homeGoals">
-                              {match.goals.filter(g => g.teamType === 'home').map((g, i) => (
-                                <span key={i} className="goalItem">{g.playerName} ({g.goalTime})</span>
-                              ))}
-                            </div>
-                            <div className="goalsDivider"></div>
-                            <div className="awayGoals">
-                              {match.goals.filter(g => g.teamType === 'away').map((g, i) => (
-                                <span key={i} className="goalItem">{g.playerName} ({g.goalTime})</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* 比赛事件轴 */}
-                      {match.events && match.events.length > 0 && (
-                        <div className="matchEventsList">
-                          <div className="eventLabel">🏃 比赛关键事件</div>
+                      <div className="eventsGrid">
+                        {/* 主队事件 */}
+                        <div className="teamEvents homeEvents">
+                          <div className="eventLabel">👕 {match.homeTeam.teamName} 事件</div>
                           <div className="eventsTimeline">
-                            {match.events.map((e, i) => {
-                              const icon = e.eventType === 'yellow_card' ? '🟨' :
-                                           e.eventType === 'red_card' ? '🟥' :
-                                           e.eventType === 'substitution' ? '🔄' :
-                                           e.eventType === 'water_break' ? '💧' : '📢';
-                              return (
-                                <div key={i} className="timelineItem">
-                                  <span className="eventTime">{e.eventTime}</span>
-                                  <span className="eventIcon">{icon}</span>
-                                  <span className="eventDesc">{e.description}</span>
-                                </div>
-                              );
-                            })}
+                            {match.events
+                              .filter(e => e.teamType === 'home')
+                              .sort((a, b) => {
+                                const parseTime = (t: string) => parseInt(t.replace(/'/g, '')) || 0;
+                                return parseTime(a.eventTime) - parseTime(b.eventTime);
+                              })
+                              .map((e, i) => {
+                                const icon = e.eventType === 'goal' ? '⚽' :
+                                             e.eventType === 'yellow_card' ? '🟨' :
+                                             e.eventType === 'red_card' ? '🟥' :
+                                             e.eventType === 'substitution' ? '🔄' : '📢';
+                                const playerNameText = e.playerName ? `${e.playerName}${e.jerseyNumber ? ` (${e.jerseyNumber}号)` : ''}` : '';
+                                return (
+                                  <div key={i} className="timelineItem">
+                                    <span className="eventTime">{e.eventTime}</span>
+                                    <span className="eventIcon">{icon}</span>
+                                    <span className="eventDesc">
+                                      <strong>{playerNameText}</strong> {e.description}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            {match.events.filter(e => e.teamType === 'home').length === 0 && (
+                              <div className="noEvents">暂无事件记录</div>
+                            )}
                           </div>
                         </div>
-                      )}
+
+                        <div className="eventsGridDivider"></div>
+
+                        {/* 客队事件 */}
+                        <div className="teamEvents awayEvents">
+                          <div className="eventLabel">👚 {match.awayTeam.teamName} 事件</div>
+                          <div className="eventsTimeline">
+                            {match.events
+                              .filter(e => e.teamType === 'away')
+                              .sort((a, b) => {
+                                const parseTime = (t: string) => parseInt(t.replace(/'/g, '')) || 0;
+                                return parseTime(a.eventTime) - parseTime(b.eventTime);
+                              })
+                              .map((e, i) => {
+                                const icon = e.eventType === 'goal' ? '⚽' :
+                                             e.eventType === 'yellow_card' ? '🟨' :
+                                             e.eventType === 'red_card' ? '🟥' :
+                                             e.eventType === 'substitution' ? '🔄' : '📢';
+                                const playerNameText = e.playerName ? `${e.playerName}${e.jerseyNumber ? ` (${e.jerseyNumber}号)` : ''}` : '';
+                                return (
+                                  <div key={i} className="timelineItem">
+                                    <span className="eventTime">{e.eventTime}</span>
+                                    <span className="eventIcon">{icon}</span>
+                                    <span className="eventDesc">
+                                      <strong>{playerNameText}</strong> {e.description}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            {match.events.filter(e => e.teamType === 'away').length === 0 && (
+                              <div className="noEvents">暂无事件记录</div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
 

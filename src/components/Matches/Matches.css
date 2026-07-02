@@ -565,3 +565,90 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* 比赛事件与进球记录样式 */
+.matchEventsSection {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.eventLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.goalsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: var(--spacing-md);
+  align-items: start;
+}
+
+.homeGoals {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.awayGoals {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.goalsDivider {
+  background-color: var(--border-color);
+  align-self: stretch;
+}
+
+.goalItem {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  display: block;
+}
+
+.matchEventsList {
+  margin-top: var(--spacing-sm);
+}
+
+.eventsTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  background-color: var(--bg-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-color);
+}
+
+.timelineItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.eventTime {
+  font-weight: 700;
+  color: var(--primary-color);
+  min-width: 32px;
+}
+
+.eventIcon {
+  font-size: 1.1rem;
+}
+
+.eventDesc {
+  color: var(--text-secondary);
+}

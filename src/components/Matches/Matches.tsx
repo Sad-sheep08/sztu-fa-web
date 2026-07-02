@@ -268,6 +268,53 @@ const Matches: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* 进球与事件面板 */}
+                  {match.status === 'completed' && ((match.goals && match.goals.length > 0) || (match.events && match.events.length > 0)) && (
+                    <div className="matchEventsSection">
+                      {/* 进球记录 */}
+                      {match.goals && match.goals.length > 0 && (
+                        <div className="matchGoalsList">
+                          <div className="eventLabel">⚽ 进球记录</div>
+                          <div className="goalsGrid">
+                            <div className="homeGoals">
+                              {match.goals.filter(g => g.teamType === 'home').map((g, i) => (
+                                <span key={i} className="goalItem">{g.playerName} ({g.goalTime})</span>
+                              ))}
+                            </div>
+                            <div className="goalsDivider"></div>
+                            <div className="awayGoals">
+                              {match.goals.filter(g => g.teamType === 'away').map((g, i) => (
+                                <span key={i} className="goalItem">{g.playerName} ({g.goalTime})</span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* 比赛事件轴 */}
+                      {match.events && match.events.length > 0 && (
+                        <div className="matchEventsList">
+                          <div className="eventLabel">🏃 比赛关键事件</div>
+                          <div className="eventsTimeline">
+                            {match.events.map((e, i) => {
+                              const icon = e.eventType === 'yellow_card' ? '🟨' :
+                                           e.eventType === 'red_card' ? '🟥' :
+                                           e.eventType === 'substitution' ? '🔄' :
+                                           e.eventType === 'water_break' ? '💧' : '📢';
+                              return (
+                                <div key={i} className="timelineItem">
+                                  <span className="eventTime">{e.eventTime}</span>
+                                  <span className="eventIcon">{icon}</span>
+                                  <span className="eventDesc">{e.description}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <div className="matchFooter">
                     <div className="matchDetail">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

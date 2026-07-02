@@ -557,110 +557,66 @@ const Matches: React.FC = () => {
                 {selectedMatchForModal.events && selectedMatchForModal.events.length > 0 ? (
                   <div className="matchEventsSection modalEvents">
                     <h3 className="eventsTitle">📝 比赛关键事件回顾</h3>
-                    <div className="eventsGrid">
-                      {/* 主队事件 */}
-                      <div className="teamEvents homeEvents">
-                        <div className="eventLabel">👕 {selectedMatchForModal.homeTeam.teamName} 事件</div>
-                        <div className="eventsTimeline">
-                          {selectedMatchForModal.events
-                            .filter(e => e.teamType === 'home')
-                            .sort((a, b) => {
-                              const parseTime = (t: string) => parseInt(t.replace(/'/g, '')) || 0;
-                              return parseTime(a.eventTime) - parseTime(b.eventTime);
-                            })
-                            .map((e, i) => {
-                              const icon = e.eventType === 'goal' ? '⚽' :
-                                           e.eventType === 'own_goal' ? '🥅' :
-                                           e.eventType === 'penalty' ? '🎯' :
-                                           e.eventType === 'yellow_card' ? '🟨' :
-                                           e.eventType === 'red_card' ? '🟥' :
-                                           e.eventType === 'substitution' ? '🔄' : '📢';
-                              return (
-                                <div key={i} className="timelineItem">
-                                  <span className="eventTime">{e.eventTime}</span>
-                                  <span className={`eventIconContainer eventIcon-${e.eventType}`}>
-                                    {icon}
-                                  </span>
-                                  <span className="eventDesc">
-                                    {e.eventType === 'substitution' ? (
-                                      <span>
-                                        换上 <strong>{e.playerName} ({e.jerseyNumber}号)</strong>，换下 <strong>{e.subPlayerName} ({e.subJerseyNumber}号)</strong>
-                                      </span>
-                                    ) : e.eventType === 'own_goal' ? (
-                                      <span>
-                                        <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="ownGoalBadge">乌龙球</span>
-                                      </span>
-                                    ) : e.eventType === 'penalty' ? (
-                                      <span>
-                                        <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="penaltyBadge">点球</span>
-                                      </span>
-                                    ) : (
-                                      <span>
-                                        <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
-                                      </span>
-                                    )}
-                                  </span>
+                    <div className="unifiedTimeline">
+                      {selectedMatchForModal.events
+                        .sort((a, b) => {
+                          const parseTime = (t: string) => {
+                            const cleaned = t.replace(/'/g, '');
+                            if (cleaned.includes('+')) {
+                              const parts = cleaned.split('+');
+                              return (parseInt(parts[0]) || 0) + (parseInt(parts[1]) || 0) / 100;
+                            }
+                            return parseInt(cleaned) || 0;
+                          };
+                          return parseTime(a.eventTime) - parseTime(b.eventTime);
+                        })
+                        .map((e, i) => {
+                          const icon = e.eventType === 'goal' ? '⚽' :
+                                       e.eventType === 'own_goal' ? '🥅' :
+                                       e.eventType === 'penalty' ? '🎯' :
+                                       e.eventType === 'yellow_card' ? '🟨' :
+                                       e.eventType === 'red_card' ? '🟥' :
+                                       e.eventType === 'substitution' ? '🔄' : '📢';
+                          const isHome = e.teamType === 'home';
+                          const teamName = isHome ? selectedMatchForModal.homeTeam.teamName : selectedMatchForModal.awayTeam.teamName;
+                          const teamLogo = isHome ? selectedMatchForModal.homeTeam.teamLogo : selectedMatchForModal.awayTeam.teamLogo;
+                          
+                          return (
+                            <div key={i} className={`timelineRow ${isHome ? 'rowHome' : 'rowAway'}`}>
+                              <span className="eventTime">{e.eventTime}</span>
+                              <div className="timelineDotContainer">
+                                <span className={`eventIconContainer eventIcon-${e.eventType}`}>
+                                  {icon}
+                                </span>
+                              </div>
+                              <div className="timelineEventCard">
+                                <div className="eventCardHeader">
+                                  <img className="miniTeamLogo" src={teamLogo || 'https://picsum.photos/seed/logo/20/20'} alt={teamName} />
+                                  <span className="miniTeamName">{teamName}</span>
                                 </div>
-                              );
-                            })}
-                          {selectedMatchForModal.events.filter(e => e.teamType === 'home').length === 0 && (
-                            <div className="noEvents">暂无事件记录</div>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="eventsGridDivider"></div>
-
-                      {/* 客队事件 */}
-                      <div className="teamEvents awayEvents">
-                        <div className="eventLabel">👚 {selectedMatchForModal.awayTeam.teamName} 事件</div>
-                        <div className="eventsTimeline">
-                          {selectedMatchForModal.events
-                            .filter(e => e.teamType === 'away')
-                            .sort((a, b) => {
-                              const parseTime = (t: string) => parseInt(t.replace(/'/g, '')) || 0;
-                              return parseTime(a.eventTime) - parseTime(b.eventTime);
-                            })
-                            .map((e, i) => {
-                              const icon = e.eventType === 'goal' ? '⚽' :
-                                           e.eventType === 'own_goal' ? '🥅' :
-                                           e.eventType === 'penalty' ? '🎯' :
-                                           e.eventType === 'yellow_card' ? '🟨' :
-                                           e.eventType === 'red_card' ? '🟥' :
-                                           e.eventType === 'substitution' ? '🔄' : '📢';
-                              return (
-                                <div key={i} className="timelineItem">
-                                  <span className="eventTime">{e.eventTime}</span>
-                                  <span className={`eventIconContainer eventIcon-${e.eventType}`}>
-                                    {icon}
-                                  </span>
-                                  <span className="eventDesc">
-                                    {e.eventType === 'substitution' ? (
-                                      <span>
-                                        换上 <strong>{e.playerName} ({e.jerseyNumber}号)</strong>，换下 <strong>{e.subPlayerName} ({e.subJerseyNumber}号)</strong>
-                                      </span>
-                                    ) : e.eventType === 'own_goal' ? (
-                                      <span>
-                                        <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="ownGoalBadge">乌龙球</span>
-                                      </span>
-                                    ) : e.eventType === 'penalty' ? (
-                                      <span>
-                                        <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="penaltyBadge">点球</span>
-                                      </span>
-                                    ) : (
-                                      <span>
-                                        <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
-                                      </span>
-                                    )}
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          {selectedMatchForModal.events.filter(e => e.teamType === 'away').length === 0 && (
-                            <div className="noEvents">暂无事件记录</div>
-                          )}
-                        </div>
-                      </div>
+                                <span className="eventDesc">
+                                  {e.eventType === 'substitution' ? (
+                                    <span>
+                                      换上 <strong>{e.playerName} ({e.jerseyNumber}号)</strong>，换下 <strong>{e.subPlayerName} ({e.subJerseyNumber}号)</strong>
+                                    </span>
+                                  ) : e.eventType === 'own_goal' ? (
+                                    <span>
+                                      <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="ownGoalBadge">乌龙球</span>
+                                    </span>
+                                  ) : e.eventType === 'penalty' ? (
+                                    <span>
+                                      <strong>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="penaltyBadge">点球</span>
+                                    </span>
+                                  ) : (
+                                    <span>
+                                      <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
+                                    </span>
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
                     </div>
                   </div>
                 ) : (

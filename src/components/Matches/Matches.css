@@ -672,3 +672,164 @@
     display: none;
   }
 }
+
+.matchCard {
+  cursor: pointer;
+}
+
+/* 比赛详情弹窗样式 */
+.matchModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  padding: var(--spacing-lg);
+}
+
+.matchModal {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: var(--shadow-2xl);
+  border: 1px solid var(--border-color);
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: var(--spacing-2xl);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.matchScoreBoxLarge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  border: 1px solid var(--border-color);
+}
+
+.modalTeam {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.modalTeamLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--border-color);
+}
+
+.modalTeamLogo img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+
+.modalTeamName {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.modalScore {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex: 1;
+}
+
+.modalScoreNumber {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.modalScoreSeparator {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+.matchInfoDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--bg-primary);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-color);
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.infoLabel {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+}
+
+.infoValue {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.modalEvents {
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-xl);
+}
+
+.eventsTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.noEventsMessage {
+  text-align: center;
+  color: var(--text-light);
+  padding: var(--spacing-xl) 0;
+  font-size: 0.95rem;
+  border-top: 1px dashed var(--border-color);
+}

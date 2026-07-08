@@ -416,7 +416,14 @@ const Matches: React.FC = () => {
                                         </span>
                                       ) : (
                                         <span>
-                                          <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
+                                          <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
+                                          {e.eventType === 'yellow_card' ? '黄牌' :
+                                           e.eventType === 'red_card' ? '红牌' :
+                                           e.eventType === 'goal' ? '进球' :
+                                           e.eventType === 'penalty' ? '点球' :
+                                           e.eventType === 'own_goal' ? '乌龙球' :
+                                           e.eventType === 'substitution' ? '换人' :
+                                           (e.description || '事件')}
                                         </span>
                                       )}
                                     </span>
@@ -467,7 +474,14 @@ const Matches: React.FC = () => {
                                         </span>
                                       ) : (
                                         <span>
-                                          <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
+                                          <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
+                                          {e.eventType === 'yellow_card' ? '黄牌' :
+                                           e.eventType === 'red_card' ? '红牌' :
+                                           e.eventType === 'goal' ? '进球' :
+                                           e.eventType === 'penalty' ? '点球' :
+                                           e.eventType === 'own_goal' ? '乌龙球' :
+                                           e.eventType === 'substitution' ? '换人' :
+                                           (e.description || '事件')}
                                         </span>
                                       )}
                                     </span>
@@ -851,7 +865,14 @@ const Matches: React.FC = () => {
                                     </span>
                                   ) : (
                                     <span>
-                                      <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong> {e.description || '进球'}
+                                      <strong>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
+                                      {e.eventType === 'yellow_card' ? '黄牌' :
+                                       e.eventType === 'red_card' ? '红牌' :
+                                       e.eventType === 'goal' ? '进球' :
+                                       e.eventType === 'penalty' ? '点球' :
+                                       e.eventType === 'own_goal' ? '乌龙球' :
+                                       e.eventType === 'substitution' ? '换人' :
+                                       (e.description || '事件')}
                                     </span>
                                   )}
                                 </span>

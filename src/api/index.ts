@@ -32,6 +32,16 @@ export async function searchTeams(name: string): Promise<Team[]> {
   return response.json();
 }
 
+function normalizeMatchStatus(match: Match): Match {
+  let status = match.status;
+  if (status as string === 'finished') {
+    status = 'completed';
+  } else if (status as string === 'ongoing') {
+    status = 'in_progress';
+  }
+  return { ...match, status };
+}
+
 export async function fetchMatches(
   page: number = 1,
   limit: number = 10,
@@ -45,7 +55,11 @@ export async function fetchMatches(
   if (!response.ok) {
     throw new Error('获取比赛列表失败');
   }
-  return response.json();
+  const result = await response.json();
+  if (result && Array.isArray(result.data)) {
+    result.data = result.data.map(normalizeMatchStatus);
+  }
+  return result;
 }
 
 export async function fetchMatchById(id: string): Promise<Match> {
@@ -56,7 +70,8 @@ export async function fetchMatchById(id: string): Promise<Match> {
     }
     throw new Error('获取比赛详情失败');
   }
-  return response.json();
+  const result = await response.json();
+  return normalizeMatchStatus(result);
 }
 
 export async function fetchPlayers(

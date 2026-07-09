@@ -32,18 +32,52 @@ export async function searchTeams(name: string): Promise<Team[]> {
   return response.json();
 }
 
+function normalizeMatchStatus(match: Match): Match {
+  let status = match.status;
+  if (status as string === 'finished') {
+    status = 'completed';
+  } else if (status as string === 'ongoing') {
+    status = 'in_progress';
+  }
+  return { ...match, status };
+}
+
 export async function fetchMatches(
   page: number = 1,
   limit: number = 10,
-  teamId?: string
+  teamId?: string,
+  seasonId?: string
 ): Promise<PaginatedResponse<Match>> {
   let url = `${BASE_URL}/matches?page=${page}&limit=${limit}`;
   if (teamId) {
     url += `&teamId=${teamId}`;
   }
+  if (seasonId) {
+    url += `&seasonId=${seasonId}`;
+  }
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error('获取比赛列表失败');
+  }
+  const result = await response.json();
+  if (result && Array.isArray(result.data)) {
+    result.data = result.data.map(normalizeMatchStatus);
+  }
+  return result;
+}
+
+export async function fetchSeasons(): Promise<any[]> {
+  const response = await fetch(`${BASE_URL}/seasons`);
+  if (!response.ok) {
+    throw new Error('获取赛季列表失败');
+  }
+  return response.json();
+}
+
+export async function fetchPlayerCareer(id: string): Promise<any> {
+  const response = await fetch(`${BASE_URL}/players/${id}/career`);
+  if (!response.ok) {
+    throw new Error('获取球员生涯数据失败');
   }
   return response.json();
 }
@@ -56,7 +90,8 @@ export async function fetchMatchById(id: string): Promise<Match> {
     }
     throw new Error('获取比赛详情失败');
   }
-  return response.json();
+  const result = await response.json();
+  return normalizeMatchStatus(result);
 }
 
 export async function fetchPlayers(

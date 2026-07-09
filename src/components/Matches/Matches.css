@@ -1119,3 +1119,183 @@
     transform: translateX(2px) !important;
   }
 }
+
+/* ==========================================================================
+   赛事统计（积分榜与射手榜）样式定义
+   ========================================================================== */
+
+/* 导航标签卡 */
+.matchesTabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: var(--spacing-sm);
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  cursor: pointer;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.tabButton::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tabButton:hover {
+  color: var(--primary-color);
+}
+
+.tabButton.active {
+  color: var(--primary-color);
+}
+
+.tabButton.active::after {
+  transform: scaleX(1);
+}
+
+/* 统计卡片与表格容器 */
+.standingsSection, .scorersSection {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  margin-top: var(--spacing-md);
+}
+
+.standingsTableContainer, .scorersTableContainer {
+  overflow-x: auto;
+}
+
+.standingsTable, .scorersTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.standingsTable th, .scorersTable th {
+  padding: var(--spacing-md) var(--spacing-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+.standingsTable td, .scorersTable td {
+  padding: var(--spacing-md) var(--spacing-sm);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.standingsTable tbody tr:hover, .scorersTable tbody tr:hover {
+  background-color: rgba(26, 86, 219, 0.03);
+}
+
+/* 排名徽章 */
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.rank-gold {
+  background: linear-gradient(135deg, #ffd700, #ffa500);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, #c0c0c0, #a9a9a9);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(192, 192, 192, 0.3);
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, #cd7f32, #8b4513);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(205, 127, 50, 0.3);
+}
+
+/* 球队行样式 */
+.tableTeamCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.tableTeamLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.tableTeamName {
+  font-weight: 600;
+}
+
+.pointsCell {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 1.05rem;
+}
+
+.goalsCell {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.text-positive {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.text-negative {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.scorerNameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.scorerIcon {
+  font-size: 1rem;
+}

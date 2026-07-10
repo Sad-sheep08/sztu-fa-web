@@ -388,19 +388,42 @@ const Teams: React.FC = () => {
                     <div className="modalPlayersEmpty">该赛季暂无队员登记或出场记录</div>
                   ) : (
                     <div className="modalPlayersList">
-                      {displayPlayers.map((player) => (
-                        <div key={player.id || `${player.name}_${player.jerseyNumber}`} className="modalPlayerCard">
-                          {player.photo ? (
-                            <img src={player.photo} alt={player.name} className="modalPlayerPhoto" />
-                          ) : (
-                            <div className="modalPlayerPhotoPlaceholder">👕</div>
-                          )}
-                          <div className="modalPlayerInfo">
-                            <span className="modalPlayerName">{player.name}</span>
-                            <span className="modalPlayerNumber">{player.jerseyNumber ? `${player.jerseyNumber}号` : '无号'}</span>
+                      {displayPlayers.map((player) => {
+                        const isSuspended = player.status === 'suspended';
+                        return (
+                          <div 
+                            key={player.id || `${player.name}_${player.jerseyNumber}`} 
+                            className="modalPlayerCard"
+                            style={isSuspended ? { borderLeft: '3px solid #fa5252', backgroundColor: '#fff5f5' } : undefined}
+                            title={isSuspended ? '该球员本赛季因红黄牌停赛' : undefined}
+                          >
+                            {player.photo ? (
+                              <img src={player.photo} alt={player.name} className="modalPlayerPhoto" />
+                            ) : (
+                              <div 
+                                className="modalPlayerPhotoPlaceholder"
+                                style={isSuspended ? { backgroundColor: '#fa5252' } : undefined}
+                              >
+                                {isSuspended ? '🛑' : '👕'}
+                              </div>
+                            )}
+                            <div className="modalPlayerInfo">
+                              <span className="modalPlayerName" style={isSuspended ? { color: '#c92a2a' } : undefined}>
+                                {player.name} {isSuspended && <span style={{ fontSize: '0.75rem', color: '#fa5252', fontWeight: 'bold' }}>(停)</span>}
+                              </span>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                                <span className="modalPlayerNumber">{player.jerseyNumber ? `${player.jerseyNumber}号` : '无号'}</span>
+                                {(player.yellowCards > 0 || player.redCards > 0) && (
+                                  <span style={{ display: 'inline-flex', gap: '3px', fontSize: '0.75rem' }}>
+                                    {player.yellowCards > 0 && <span style={{ color: '#f59f00' }}>🟨{player.yellowCards}</span>}
+                                    {player.redCards > 0 && <span style={{ color: '#fa5252' }}>🟥{player.redCards}</span>}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>

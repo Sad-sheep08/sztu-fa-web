@@ -1088,6 +1088,90 @@
 }
 
 @media (max-width: 600px) {
+  /* 比赛详情弹窗在手机上的整体内边距与字体微调 */
+  .matchModal {
+    padding: var(--spacing-md) !important;
+    max-height: 95vh !important;
+    border-radius: var(--radius-xl) !important;
+  }
+
+  .matchModalHeaderTitle {
+    font-size: 1.05rem !important;
+  }
+
+  .matchModalClose {
+    top: 0.8rem !important;
+    right: 0.8rem !important;
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  /* 比分大盒子在手机上挤压的优化 */
+  .matchScoreBoxLarge {
+    padding: var(--spacing-md) var(--spacing-sm) !important;
+    gap: var(--spacing-xs) !important;
+    border-radius: var(--radius-xl) !important;
+  }
+
+  .modalTeamLogo {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .modalTeamLogo img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .modalTeamName {
+    font-size: 0.85rem !important;
+  }
+
+  .modalScoreNumber {
+    font-size: 1.8rem !important;
+  }
+
+  .modalScoreSeparator {
+    font-size: 1.3rem !important;
+  }
+
+  /* 详情信息条在手机上改为单列 */
+  .matchInfoDetails {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-xs) !important;
+    margin-bottom: var(--spacing-lg) !important;
+  }
+
+  .infoItem {
+    padding: var(--spacing-xs) var(--spacing-md) !important;
+  }
+
+  /* 首发与替补名单在小屏下由两列强制改为单列堆叠 */
+  .modalLineupsContainer {
+    grid-template-columns: 1fr !important;
+    gap: var(--spacing-lg) !important;
+  }
+
+  .modalLineupColumn h3 {
+    margin-bottom: var(--spacing-sm) !important;
+  }
+
+  /* 弹窗中的 Tab 标签栏优化以防换行 */
+  .modalTabButton {
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* 生涯卡片在小屏上的适配 */
+  .careerCardModal {
+    padding: var(--spacing-lg) !important;
+    max-width: 95% !important;
+  }
+
+  .careerCardModal h4 {
+    font-size: 1rem !important;
+  }
+
   .unifiedTimeline::before {
     left: 20px;
     transform: none;

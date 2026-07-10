@@ -741,9 +741,11 @@ const Matches: React.FC = () => {
                           <td>
                             <span className={`rankBadge ${rankClass}`}>{index + 1}</span>
                           </td>
-                          <td className="tableTeamCell">
-                            <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
-                            <span className="tableTeamName">{row.teamName}</span>
+                          <td>
+                            <div className="tableTeamCell">
+                              <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
+                              <span className="tableTeamName">{row.teamName}</span>
+                            </div>
                           </td>
                           <td>{row.played}</td>
                           <td>{row.won}</td>
@@ -805,21 +807,24 @@ const Matches: React.FC = () => {
                             <span className={`rankBadge ${rankClass}`}>{index + 1}</span>
                           </td>
                           <td
-                            className="scorerNameCell"
                             style={{ cursor: row.playerId ? 'pointer' : 'default' }}
                             onClick={() => row.playerId && handlePlayerClick(row.playerId, row.playerName)}
                           >
-                            <span className="scorerIcon">⚽</span>
-                            {row.playerId ? (
-                              <strong style={{ color: 'var(--primary-color)', textDecoration: 'underline' }}>{row.playerName}</strong>
-                            ) : (
-                              <strong>{row.playerName}</strong>
-                            )}
+                            <div className="scorerNameCell">
+                              <span className="scorerIcon">⚽</span>
+                              {row.playerId ? (
+                                <strong style={{ color: 'var(--primary-color)', textDecoration: 'underline' }}>{row.playerName}</strong>
+                              ) : (
+                                <strong>{row.playerName}</strong>
+                              )}
+                            </div>
                           </td>
                           <td>{row.jerseyNumber}号</td>
-                          <td className="tableTeamCell">
-                            <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
-                            <span className="tableTeamName">{row.teamName}</span>
+                          <td>
+                            <div className="tableTeamCell">
+                              <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
+                              <span className="tableTeamName">{row.teamName}</span>
+                            </div>
                           </td>
                           <td className="goalsCell">{row.goals}</td>
                         </tr>
@@ -872,21 +877,24 @@ const Matches: React.FC = () => {
                             <span className={`rankBadge ${rankClass}`}>{index + 1}</span>
                           </td>
                           <td
-                            className="scorerNameCell"
                             style={{ cursor: row.playerId ? 'pointer' : 'default' }}
                             onClick={() => row.playerId && handlePlayerClick(row.playerId, row.playerName)}
                           >
-                            <span className="scorerIcon">🎯</span>
-                            {row.playerId ? (
-                              <strong style={{ color: 'var(--primary-color)', textDecoration: 'underline' }}>{row.playerName}</strong>
-                            ) : (
-                              <strong>{row.playerName}</strong>
-                            )}
+                            <div className="scorerNameCell">
+                              <span className="scorerIcon">🎯</span>
+                              {row.playerId ? (
+                                <strong style={{ color: 'var(--primary-color)', textDecoration: 'underline' }}>{row.playerName}</strong>
+                              ) : (
+                                <strong>{row.playerName}</strong>
+                              )}
+                            </div>
                           </td>
                           <td>{row.jerseyNumber}号</td>
-                          <td className="tableTeamCell">
-                            <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
-                            <span className="tableTeamName">{row.teamName}</span>
+                          <td>
+                            <div className="tableTeamCell">
+                              <img className="tableTeamLogo" src={row.teamLogo || 'https://picsum.photos/seed/team/30/30'} alt={row.teamName} />
+                              <span className="tableTeamName">{row.teamName}</span>
+                            </div>
                           </td>
                           <td className="goalsCell">{row.assists}</td>
                         </tr>

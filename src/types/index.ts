@@ -73,6 +73,7 @@ export interface Match {
   mvpPlayerId?: string | null;
   mvpPlayerName?: string | null;
   seasonId?: string | null;
+  lineups?: any[];
   createdAt: string;
   updatedAt: string;
 }

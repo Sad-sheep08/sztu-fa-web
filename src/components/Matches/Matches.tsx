@@ -30,6 +30,7 @@ const Matches: React.FC = () => {
   const [teamFilter, setTeamFilter] = useState<string>('');
   const [availableTeams, setAvailableTeams] = useState<Team[]>([]);
   const [selectedMatchForModal, setSelectedMatchForModal] = useState<Match | null>(null);
+  const [modalTab, setModalTab] = useState<'events' | 'lineups'>('events');
 
   // 赛季与生涯卡片状态
   const [seasons, setSeasons] = useState<any[]>([]);
@@ -378,7 +379,7 @@ const Matches: React.FC = () => {
             {/* 赛事列表 */}
             <div className="matchesList">
               {matches.map((match) => (
-                <div key={match.id} className="matchCard" onClick={() => setSelectedMatchForModal(match)}>
+                <div key={match.id} className="matchCard" onClick={() => { setSelectedMatchForModal(match); setModalTab('events'); }}>
                   <div className="matchHeader">
                     <span
                       className="matchStatus"
@@ -970,92 +971,237 @@ const Matches: React.FC = () => {
                   )}
                 </div>
 
-                {/* 进球与事件面板 */}
-                {selectedMatchForModal.events && selectedMatchForModal.events.length > 0 ? (
-                  <div className="matchEventsSection modalEvents">
-                    <h3 className="eventsTitle">📝 比赛关键事件回顾</h3>
-                    <div className="unifiedTimeline">
-                      {selectedMatchForModal.events
-                        .sort((a, b) => {
-                          const parseTime = (t: string) => {
-                            const cleaned = t.replace(/'/g, '');
-                            if (cleaned.includes('+')) {
-                              const parts = cleaned.split('+');
-                              return (parseInt(parts[0]) || 0) + (parseInt(parts[1]) || 0) / 100;
-                            }
-                            return parseInt(cleaned) || 0;
-                          };
-                          return parseTime(a.eventTime) - parseTime(b.eventTime);
-                        })
-                        .map((e, i) => {
-                          const icon = e.eventType === 'goal' ? '⚽' :
-                                       e.eventType === 'own_goal' ? '🥅' :
-                                       e.eventType === 'penalty' ? '🎯' :
-                                       e.eventType === 'yellow_card' ? '🟨' :
-                                       e.eventType === 'red_card' ? '🟥' :
-                                       e.eventType === 'substitution' ? '🔄' : '📢';
-                          const isHome = e.teamType === 'home';
-                          const teamName = isHome ? selectedMatchForModal.homeTeam.teamName : selectedMatchForModal.awayTeam.teamName;
-                          const teamLogo = isHome ? selectedMatchForModal.homeTeam.teamLogo : selectedMatchForModal.awayTeam.teamLogo;
-                          
-                          return (
-                            <div key={i} className={`timelineRow ${isHome ? 'rowHome' : 'rowAway'}`}>
-                              <div className="timelineDotContainer">
-                                <span className="eventTime">{e.eventTime}</span>
-                                <span className={`eventIconContainer eventIcon-${e.eventType}`}>
-                                  {icon}
-                                </span>
-                              </div>
-                              <div className="timelineEventCard">
-                                <div className="eventCardHeader">
-                                  <img className="miniTeamLogo" src={teamLogo || 'https://picsum.photos/seed/logo/20/20'} alt={teamName} />
-                                  <span className="miniTeamName">{teamName}</span>
+                {/* 详情弹窗标签页切换 */}
+                <div className="modalTabContainer" style={{ display: 'flex', borderBottom: '2px solid var(--border-color, #eee)', marginBottom: '20px', gap: '15px' }}>
+                  <button
+                    className={`modalTabButton ${modalTab === 'events' ? 'active' : ''}`}
+                    onClick={() => setModalTab('events')}
+                    style={{
+                      padding: '10px 20px',
+                      border: 'none',
+                      background: 'none',
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      color: modalTab === 'events' ? 'var(--primary-color)' : 'var(--text-light)',
+                      borderBottom: modalTab === 'events' ? '3px solid var(--primary-color)' : '3px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      marginBottom: '-2px'
+                    }}
+                  >
+                    📝 关键事件
+                  </button>
+                  <button
+                    className={`modalTabButton ${modalTab === 'lineups' ? 'active' : ''}`}
+                    onClick={() => setModalTab('lineups')}
+                    style={{
+                      padding: '10px 20px',
+                      border: 'none',
+                      background: 'none',
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      color: modalTab === 'lineups' ? 'var(--primary-color)' : 'var(--text-light)',
+                      borderBottom: modalTab === 'lineups' ? '3px solid var(--primary-color)' : '3px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      marginBottom: '-2px'
+                    }}
+                  >
+                    🏃‍♂️ 双方阵容
+                  </button>
+                </div>
+
+                {/* 关键事件面板 */}
+                {modalTab === 'events' && (
+                  selectedMatchForModal.events && selectedMatchForModal.events.length > 0 ? (
+                    <div className="matchEventsSection modalEvents" style={{ marginTop: 0 }}>
+                      <h3 className="eventsTitle">📝 比赛关键事件回顾</h3>
+                      <div className="unifiedTimeline">
+                        {selectedMatchForModal.events
+                          .sort((a, b) => {
+                            const parseTime = (t: string) => {
+                              const cleaned = t.replace(/'/g, '');
+                              if (cleaned.includes('+')) {
+                                const parts = cleaned.split('+');
+                                return (parseInt(parts[0]) || 0) + (parseInt(parts[1]) || 0) / 100;
+                              }
+                              return parseInt(cleaned) || 0;
+                            };
+                            return parseTime(a.eventTime) - parseTime(b.eventTime);
+                          })
+                          .map((e, i) => {
+                            const icon = e.eventType === 'goal' ? '⚽' :
+                                         e.eventType === 'own_goal' ? '🥅' :
+                                         e.eventType === 'penalty' ? '🎯' :
+                                         e.eventType === 'yellow_card' ? '🟨' :
+                                         e.eventType === 'red_card' ? '🟥' :
+                                         e.eventType === 'substitution' ? '🔄' : '📢';
+                            const isHome = e.teamType === 'home';
+                            const teamName = isHome ? selectedMatchForModal.homeTeam.teamName : selectedMatchForModal.awayTeam.teamName;
+                            const teamLogo = isHome ? selectedMatchForModal.homeTeam.teamLogo : selectedMatchForModal.awayTeam.teamLogo;
+                            
+                            return (
+                              <div key={i} className={`timelineRow ${isHome ? 'rowHome' : 'rowAway'}`}>
+                                <div className="timelineDotContainer">
+                                  <span className="eventTime">{e.eventTime}</span>
+                                  <span className={`eventIconContainer eventIcon-${e.eventType}`}>
+                                    {icon}
+                                  </span>
                                 </div>
-                                <span className="eventDesc">
-                                  {e.eventType === 'substitution' ? (
-                                    <span>
-                                      换上 <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong>，换下 <strong style={{ cursor: e.subPlayerId ? 'pointer' : 'default', textDecoration: e.subPlayerId ? 'underline' : 'none', color: e.subPlayerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.subPlayerId && handlePlayerClick(e.subPlayerId, e.subPlayerName || '')}>{e.subPlayerName} ({e.subJerseyNumber}号)</strong>
-                                    </span>
-                                  ) : e.eventType === 'own_goal' ? (
-                                    <span>
-                                      <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="ownGoalBadge">乌龙球</span>
-                                    </span>
-                                  ) : e.eventType === 'penalty' ? (
-                                    <span>
-                                      <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="penaltyBadge">点球</span>
-                                      {e.assistPlayerName && (
-                                        <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
-                                          (助攻: <strong style={{ cursor: e.assistPlayerId ? 'pointer' : 'underline' }} onClick={() => e.assistPlayerId && handlePlayerClick(e.assistPlayerId, e.assistPlayerName || '')}>{e.assistPlayerName}</strong>)
-                                        </span>
-                                      )}
-                                    </span>
-                                  ) : (
-                                    <span>
-                                      <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
-                                      {e.eventType === 'yellow_card' ? '黄牌' :
-                                       e.eventType === 'red_card' ? '红牌' :
-                                       e.eventType === 'goal' ? '进球' :
-                                       e.eventType === 'penalty' ? '点球' :
-                                       e.eventType === 'own_goal' ? '乌龙球' :
-                                       e.eventType === 'substitution' ? '换人' :
-                                       (e.description || '事件')}
-                                      {e.eventType === 'goal' && e.assistPlayerName && (
-                                        <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
-                                          (助攻: <strong style={{ cursor: e.assistPlayerId ? 'pointer' : 'underline' }} onClick={() => e.assistPlayerId && handlePlayerClick(e.assistPlayerId, e.assistPlayerName || '')}>{e.assistPlayerName}</strong>)
-                                        </span>
-                                      )}
-                                    </span>
-                                  )}
-                                </span>
+                                <div className="timelineEventCard">
+                                  <div className="eventCardHeader">
+                                    <img className="miniTeamLogo" src={teamLogo || 'https://picsum.photos/seed/logo/20/20'} alt={teamName} />
+                                    <span className="miniTeamName">{teamName}</span>
+                                  </div>
+                                  <span className="eventDesc">
+                                    {e.eventType === 'substitution' ? (
+                                      <span>
+                                        换上 <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong>，换下 <strong style={{ cursor: e.subPlayerId ? 'pointer' : 'default', textDecoration: e.subPlayerId ? 'underline' : 'none', color: e.subPlayerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.subPlayerId && handlePlayerClick(e.subPlayerId, e.subPlayerName || '')}>{e.subPlayerName} ({e.subJerseyNumber}号)</strong>
+                                      </span>
+                                    ) : e.eventType === 'own_goal' ? (
+                                      <span>
+                                        <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="ownGoalBadge">乌龙球</span>
+                                      </span>
+                                    ) : e.eventType === 'penalty' ? (
+                                      <span>
+                                        <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName} ({e.jerseyNumber}号)</strong> <span className="penaltyBadge">点球</span>
+                                        {e.assistPlayerName && (
+                                          <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
+                                            (助攻: <strong style={{ cursor: e.assistPlayerId ? 'pointer' : 'underline' }} onClick={() => e.assistPlayerId && handlePlayerClick(e.assistPlayerId, e.assistPlayerName || '')}>{e.assistPlayerName}</strong>)
+                                          </span>
+                                        )}
+                                      </span>
+                                    ) : (
+                                      <span>
+                                        <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
+                                        {e.eventType === 'yellow_card' ? '黄牌' :
+                                         e.eventType === 'red_card' ? '红牌' :
+                                         e.eventType === 'goal' ? '进球' :
+                                         e.eventType === 'penalty' ? '点球' :
+                                         e.eventType === 'own_goal' ? '乌龙球' :
+                                         e.eventType === 'substitution' ? '换人' :
+                                         (e.description || '事件')}
+                                        {e.eventType === 'goal' && e.assistPlayerName && (
+                                          <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
+                                            (助攻: <strong style={{ cursor: e.assistPlayerId ? 'pointer' : 'underline' }} onClick={() => e.assistPlayerId && handlePlayerClick(e.assistPlayerId, e.assistPlayerName || '')}>{e.assistPlayerName}</strong>)
+                                          </span>
+                                        )}
+                                      </span>
+                                    )}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="noEventsMessage">
-                    ⚽ 暂无比赛事件记录
+                  ) : (
+                    <div className="noEventsMessage">
+                      ⚽ 暂无比赛事件记录
+                    </div>
+                  )
+                )}
+
+                {/* 阵容对比面板 */}
+                {modalTab === 'lineups' && (
+                  <div className="modalLineupsContainer" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', padding: '10px 0' }}>
+                    {/* 主队阵容 */}
+                    <div className="modalLineupColumn">
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--primary-color)', marginBottom: '15px', borderBottom: '2px solid var(--border-color)', paddingBottom: '6px' }}>
+                        {selectedMatchForModal.homeTeam.teamName} (主)
+                      </h3>
+                      
+                      <div className="lineupSubSection">
+                        <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-color)', marginBottom: '10px', borderLeft: '3px solid #4caf50', paddingLeft: '8px' }}>首发球员</h4>
+                        <div className="lineupPlayersList" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {(!selectedMatchForModal.lineups || selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'home' && l.lineupType === 'starting').length === 0) ? (
+                            <span style={{ color: 'var(--text-light)', fontSize: '0.9rem', fontStyle: 'italic', paddingLeft: '8px' }}>未公布首发</span>
+                          ) : (
+                            selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'home' && l.lineupType === 'starting').map((l: any) => (
+                              <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 12px', backgroundColor: 'var(--bg-light, #f8f9fa)', borderRadius: '8px', fontSize: '0.95rem' }}>
+                                <span style={{ fontWeight: 800, color: '#4caf50', minWidth: '24px' }}>#{l.player.jerseyNumber}</span>
+                                <strong
+                                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'var(--text-color)' }}
+                                  onClick={() => handlePlayerClick(l.playerId, l.player.name)}
+                                >
+                                  {l.player.name}
+                                </strong>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="lineupSubSection" style={{ marginTop: '20px' }}>
+                        <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-color)', marginBottom: '10px', borderLeft: '3px solid #2196f3', paddingLeft: '8px' }}>替补席</h4>
+                        <div className="lineupPlayersList" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {(!selectedMatchForModal.lineups || selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'home' && l.lineupType === 'substitute').length === 0) ? (
+                            <span style={{ color: 'var(--text-light)', fontSize: '0.9rem', fontStyle: 'italic', paddingLeft: '8px' }}>未公布替补</span>
+                          ) : (
+                            selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'home' && l.lineupType === 'substitute').map((l: any) => (
+                              <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 12px', backgroundColor: 'var(--bg-light, #f8f9fa)', borderRadius: '8px', fontSize: '0.95rem' }}>
+                                <span style={{ fontWeight: 800, color: '#2196f3', minWidth: '24px' }}>#{l.player.jerseyNumber}</span>
+                                <strong
+                                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'var(--text-color)' }}
+                                  onClick={() => handlePlayerClick(l.playerId, l.player.name)}
+                                >
+                                  {l.player.name}
+                                </strong>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 客队阵容 */}
+                    <div className="modalLineupColumn">
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 'bold', color: 'var(--primary-color)', marginBottom: '15px', borderBottom: '2px solid var(--border-color)', paddingBottom: '6px' }}>
+                        {selectedMatchForModal.awayTeam.teamName} (客)
+                      </h3>
+                      
+                      <div className="lineupSubSection">
+                        <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-color)', marginBottom: '10px', borderLeft: '3px solid #4caf50', paddingLeft: '8px' }}>首发球员</h4>
+                        <div className="lineupPlayersList" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {(!selectedMatchForModal.lineups || selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'away' && l.lineupType === 'starting').length === 0) ? (
+                            <span style={{ color: 'var(--text-light)', fontSize: '0.9rem', fontStyle: 'italic', paddingLeft: '8px' }}>未公布首发</span>
+                          ) : (
+                            selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'away' && l.lineupType === 'starting').map((l: any) => (
+                              <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 12px', backgroundColor: 'var(--bg-light, #f8f9fa)', borderRadius: '8px', fontSize: '0.95rem' }}>
+                                <span style={{ fontWeight: 800, color: '#4caf50', minWidth: '24px' }}>#{l.player.jerseyNumber}</span>
+                                <strong
+                                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'var(--text-color)' }}
+                                  onClick={() => handlePlayerClick(l.playerId, l.player.name)}
+                                >
+                                  {l.player.name}
+                                </strong>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="lineupSubSection" style={{ marginTop: '20px' }}>
+                        <h4 style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-color)', marginBottom: '10px', borderLeft: '3px solid #2196f3', paddingLeft: '8px' }}>替补席</h4>
+                        <div className="lineupPlayersList" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                          {(!selectedMatchForModal.lineups || selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'away' && l.lineupType === 'substitute').length === 0) ? (
+                            <span style={{ color: 'var(--text-light)', fontSize: '0.9rem', fontStyle: 'italic', paddingLeft: '8px' }}>未公布替补</span>
+                          ) : (
+                            selectedMatchForModal.lineups.filter((l: any) => l.teamType === 'away' && l.lineupType === 'substitute').map((l: any) => (
+                              <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 12px', backgroundColor: 'var(--bg-light, #f8f9fa)', borderRadius: '8px', fontSize: '0.95rem' }}>
+                                <span style={{ fontWeight: 800, color: '#2196f3', minWidth: '24px' }}>#{l.player.jerseyNumber}</span>
+                                <strong
+                                  style={{ cursor: 'pointer', textDecoration: 'underline', color: 'var(--text-color)' }}
+                                  onClick={() => handlePlayerClick(l.playerId, l.player.name)}
+                                >
+                                  {l.player.name}
+                                </strong>
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

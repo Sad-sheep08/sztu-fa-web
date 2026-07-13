@@ -748,6 +748,30 @@
     white-space: nowrap !important;
     padding: var(--spacing-sm) 8px !important;
   }
+
+  .matchesTabs {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding-bottom: 4px !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-bottom: 2px solid var(--border-color) !important;
+  }
+
+  .tabButton {
+    font-size: 0.85rem !important;
+    padding: 8px 8px !important;
+    white-space: nowrap !important;
+    flex: 1 !important;
+    text-align: center !important;
+  }
+
+  .tabButton::after {
+    bottom: -6px !important;
+  }
 }
 
 .matchCard {

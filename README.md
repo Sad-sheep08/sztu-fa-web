@@ -37,7 +37,7 @@ npm install
 ```bash
 npm run dev
 ```
-本地开发服务会在 `http://localhost:5173` 启动，API 接口默认代理至 `http://localhost:3001`。
+本地开发服务会在 `http://localhost:5173` 启动，API 接口默认代理至 `http://127.0.0.1:3001`。
 
 ### 3. 项目构建
 ```bash

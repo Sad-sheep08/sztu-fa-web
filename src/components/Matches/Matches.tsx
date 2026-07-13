@@ -451,7 +451,7 @@ const Matches: React.FC = () => {
                                              e.eventType === 'own_goal' ? '🥅' :
                                              e.eventType === 'penalty' ? '🎯' :
                                              e.eventType === 'yellow_card' ? '🟨' :
-                                             e.eventType === 'red_card' ? '🟥' :
+                                             e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
                                              e.eventType === 'substitution' ? '🔄' : '📢';
                                 return (
                                   <div key={i} className="timelineItem">
@@ -479,7 +479,7 @@ const Matches: React.FC = () => {
                                         <span>
                                           <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={(evt) => { evt.stopPropagation(); e.playerId && handlePlayerClick(e.playerId, e.playerName || ''); }}>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
                                           {e.eventType === 'yellow_card' ? '黄牌' :
-                                           e.eventType === 'red_card' ? '红牌' :
+                                           e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                            e.eventType === 'goal' ? '进球' :
                                            e.eventType === 'penalty' ? '点球' :
                                            e.eventType === 'own_goal' ? '乌龙球' :
@@ -522,7 +522,7 @@ const Matches: React.FC = () => {
                                              e.eventType === 'own_goal' ? '🥅' :
                                              e.eventType === 'penalty' ? '🎯' :
                                              e.eventType === 'yellow_card' ? '🟨' :
-                                             e.eventType === 'red_card' ? '🟥' :
+                                             e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
                                              e.eventType === 'substitution' ? '🔄' : '📢';
                                 return (
                                   <div key={i} className="timelineItem">
@@ -550,7 +550,7 @@ const Matches: React.FC = () => {
                                         <span>
                                           <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={(evt) => { evt.stopPropagation(); e.playerId && handlePlayerClick(e.playerId, e.playerName || ''); }}>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
                                           {e.eventType === 'yellow_card' ? '黄牌' :
-                                           e.eventType === 'red_card' ? '红牌' :
+                                           e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                            e.eventType === 'goal' ? '进球' :
                                            e.eventType === 'penalty' ? '点球' :
                                            e.eventType === 'own_goal' ? '乌龙球' :
@@ -1048,7 +1048,7 @@ const Matches: React.FC = () => {
                                          e.eventType === 'own_goal' ? '🥅' :
                                          e.eventType === 'penalty' ? '🎯' :
                                          e.eventType === 'yellow_card' ? '🟨' :
-                                         e.eventType === 'red_card' ? '🟥' :
+                                         e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
                                          e.eventType === 'substitution' ? '🔄' : '📢';
                             const isHome = e.teamType === 'home';
                             const teamName = isHome ? selectedMatchForModal.homeTeam.teamName : selectedMatchForModal.awayTeam.teamName;
@@ -1089,7 +1089,7 @@ const Matches: React.FC = () => {
                                       <span>
                                         <strong style={{ cursor: e.playerId ? 'pointer' : 'default', textDecoration: e.playerId ? 'underline' : 'none', color: e.playerId ? 'var(--primary-color)' : 'inherit' }} onClick={() => e.playerId && handlePlayerClick(e.playerId, e.playerName || '')}>{e.playerName ? `${e.playerName} (${e.jerseyNumber}号)` : ''}</strong>{' '}
                                         {e.eventType === 'yellow_card' ? '黄牌' :
-                                         e.eventType === 'red_card' ? '红牌' :
+                                         e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                          e.eventType === 'goal' ? '进球' :
                                          e.eventType === 'penalty' ? '点球' :
                                          e.eventType === 'own_goal' ? '乌龙球' :

@@ -435,7 +435,10 @@ const Matches: React.FC = () => {
                       <div className="eventsGrid">
                         {/* 主队事件 */}
                         <div className="teamEvents homeEvents">
-                          <div className="eventLabel">👕 {match.homeTeam.teamName} 事件</div>
+                          <div className="eventLabel">
+                            <span className="fullTeamName">👕 {match.homeTeam.teamName} 事件</span>
+                            <span className="shortTeamName">👕 主队</span>
+                          </div>
                           <div className="eventsTimeline">
                             {match.events
                               .filter(e => e.teamType === 'home')
@@ -503,7 +506,10 @@ const Matches: React.FC = () => {
 
                         {/* 客队事件 */}
                         <div className="teamEvents awayEvents">
-                          <div className="eventLabel">👚 {match.awayTeam.teamName} 事件</div>
+                          <div className="eventLabel">
+                            <span className="fullTeamName">👚 {match.awayTeam.teamName} 事件</span>
+                            <span className="shortTeamName">👚 客队</span>
+                          </div>
                           <div className="eventsTimeline">
                             {match.events
                               .filter(e => e.teamType === 'away')

@@ -505,16 +505,43 @@
   }
 
   .matchContent {
-    flex-direction: column;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    gap: var(--spacing-xs) !important;
+    width: 100% !important;
   }
 
   .matchTeam {
-    flex-direction: row;
-    gap: var(--spacing-md);
+    flex-direction: column !important;
+    align-items: center !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .matchTeamName {
+    font-size: 0.8rem !important;
+    word-break: break-all !important;
+    margin-top: 4px !important;
+    line-height: 1.2 !important;
+  }
+
+  .matchTeamLogo {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  .matchTeamLogo img {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .matchScoreBox {
+    flex-shrink: 0 !important;
+    min-width: 60px !important;
   }
 
   .matchTeam:last-child {
-    order: -1;
+    order: initial !important;
   }
 
   .matchFooter {
@@ -663,13 +690,47 @@
   background-color: var(--primary-color, #0d6efd);
 }
 
+.shortTeamName {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .eventsGrid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
   }
   .eventsGridDivider {
-    display: none;
+    display: none !important;
+  }
+  .eventsTimeline {
+    padding: 6px 8px !important;
+    gap: 6px !important;
+  }
+  .timelineItem {
+    font-size: 0.78rem !important;
+    gap: 4px !important;
+    padding: 2px 0 !important;
+  }
+  .eventTime {
+    min-width: 22px !important;
+    font-size: 0.78rem !important;
+  }
+  .eventIcon {
+    font-size: 0.95rem !important;
+  }
+  .eventDesc {
+    font-size: 0.78rem !important;
+    line-height: 1.2 !important;
+    word-break: break-all !important;
+  }
+  .eventDesc strong {
+    font-size: 0.78rem !important;
+  }
+  .fullTeamName {
+    display: none !important;
+  }
+  .shortTeamName {
+    display: inline !important;
   }
 }
 

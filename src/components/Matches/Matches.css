@@ -732,6 +732,22 @@
   .shortTeamName {
     display: inline !important;
   }
+
+  .standingsTableContainer, .scorersTableContainer {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .standingsTable, .scorersTable {
+    min-width: 580px !important;
+  }
+
+  .standingsTable th, .standingsTable td,
+  .scorersTable th, .scorersTable td {
+    white-space: nowrap !important;
+    padding: var(--spacing-sm) 8px !important;
+  }
 }
 
 .matchCard {

@@ -1203,8 +1203,12 @@
     transform: translateX(-50%) !important;
   }
   
-  .timelineRow {
-    justify-content: inherit !important;
+  .timelineRow.rowHome {
+    justify-content: flex-start !important;
+  }
+
+  .timelineRow.rowAway {
+    justify-content: flex-end !important;
   }
   
   .timelineDotContainer {
@@ -1217,10 +1221,12 @@
   
   .timelineEventCard {
     width: calc(50% - 15px) !important;
+    max-width: calc(50% - 15px) !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
     border-radius: var(--radius-lg) !important;
     padding: 8px 10px !important;
+    box-sizing: border-box !important;
   }
 
   /* 手机端事件图中不显示球队名字和Logo */

@@ -20,6 +20,7 @@ const statusColors: Record<string, string> = {
 
 const Matches: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
+  const [matchStats, setMatchStats] = useState({ total: 0, completed: 0, scheduled: 0, ongoing: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -167,6 +168,17 @@ const Matches: React.FC = () => {
       
       setMatches(sortedMatches);
       setTotal(response.total);
+      
+      if (response.stats) {
+        setMatchStats(response.stats);
+      } else {
+        setMatchStats({
+          total: response.total,
+          completed: sortedMatches.filter((m) => m.status === 'completed').length,
+          scheduled: sortedMatches.filter((m) => m.status === 'scheduled').length,
+          ongoing: sortedMatches.filter((m) => m.status === 'in_progress').length,
+        });
+      }
       
       const teams = [...new Set(
         response.data.flatMap(m => [m.homeTeam, m.awayTeam])
@@ -681,25 +693,19 @@ const Matches: React.FC = () => {
                 <h3 className="sectionTitleSmall">赛事统计</h3>
                 <div className="statsGrid">
                   <div className="statCard">
-                    <span className="statValue">{matches.length}</span>
+                    <span className="statValue">{matchStats.total}</span>
                     <span className="statLabel">总比赛数</span>
                   </div>
                   <div className="statCard">
-                    <span className="statValue">
-                      {matches.filter((m) => m.status === 'completed').length}
-                    </span>
+                    <span className="statValue">{matchStats.completed}</span>
                     <span className="statLabel">已结束</span>
                   </div>
                   <div className="statCard">
-                    <span className="statValue">
-                      {matches.filter((m) => m.status === 'scheduled').length}
-                    </span>
+                    <span className="statValue">{matchStats.scheduled}</span>
                     <span className="statLabel">即将开始</span>
                   </div>
                   <div className="statCard">
-                    <span className="statValue">
-                      {matches.filter((m) => m.status === 'in_progress').length}
-                    </span>
+                    <span className="statValue">{matchStats.ongoing}</span>
                     <span className="statLabel">进行中</span>
                   </div>
                 </div>

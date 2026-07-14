@@ -83,6 +83,12 @@ export interface PaginatedResponse<T> {
   total: number;
   page: number;
   limit: number;
+  stats?: {
+    total: number;
+    completed: number;
+    scheduled: number;
+    ongoing: number;
+  };
 }
 
 export interface TeamWithPlayers extends Team {

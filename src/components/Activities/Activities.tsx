@@ -47,16 +47,6 @@ const mockActivities: Activity[] = [
   },
 ];
 
-const mockFeaturedActivity = {
-  title: '第八届"校长杯"总决赛即将开战',
-  description: '巅峰对决即将上演！两支老牌冠军队伍强势突围，成功会师总决赛，开启终极冠军争夺战！让我们共同期待这场年度足球盛宴！',
-  image: '/activity1.jpg',
-  date: '2026-06-17',
-  location: '主体育场',
-  wechatUrl: '#',
-  category: '赛事',
-};
-
 const Activities: React.FC = () => {
   const [newsList, setNewsList] = useState<News[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +54,7 @@ const Activities: React.FC = () => {
   useEffect(() => {
     const loadNewsData = async () => {
       try {
-        const res = await fetchNews(1, 4);
+        const res = await fetchNews(1, 6); // 拉取最新的6条文章在网格中统一排版
         if (res && res.data && res.data.length > 0) {
           setNewsList(res.data);
         }
@@ -77,21 +67,10 @@ const Activities: React.FC = () => {
     loadNewsData();
   }, []);
 
-  // 渲染判断：如果有后端数据，就用后端数据；否则完美回退到 Mock 静态数据
   const hasNews = newsList.length > 0;
-  
-  const feat = hasNews ? {
-    title: newsList[0].title,
-    description: newsList[0].description,
-    image: newsList[0].coverImage || '/activity1.jpg',
-    date: newsList[0].date,
-    location: '微信公众号',
-    wechatUrl: newsList[0].wechatUrl,
-    category: newsList[0].category
-  } : mockFeaturedActivity;
 
   const displayList = hasNews 
-    ? newsList.slice(1).map(n => ({
+    ? newsList.map(n => ({
         id: n.id,
         title: n.title,
         description: n.description,
@@ -117,51 +96,12 @@ const Activities: React.FC = () => {
         </div>
 
         <div className="activitiesGrid">
-          {/* 特色活动 */}
-          <div className="featuredActivity">
-            <div className="featuredActivityImage">
-              <img src={feat.image} alt={feat.title} loading="lazy" />
-              <span className="featuredActivityBadge">热门活动</span>
-            </div>
-            <div className="featuredActivityContent">
-              <h3 className="featuredActivityTitle">{feat.title}</h3>
-              <p className="featuredActivityDescription">{feat.description}</p>
-              <div className="featuredActivityInfo">
-                <div className="featuredActivityInfoItem">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                  <span>{feat.date}</span>
-                </div>
-                <div className="featuredActivityInfoItem">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  <span>{feat.location}</span>
-                </div>
-              </div>
-              <a href={feat.wechatUrl} target={feat.wechatUrl === '#' ? '_self' : '_blank'} rel="noopener noreferrer" className="featuredActivityButton">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-                查看详情
-              </a>
-            </div>
-          </div>
-
-          {/* 活动列表 */}
-          {displayList.map((activity) => (
+          {displayList.map((activity, index) => (
             <div key={activity.id} className="activityCard">
               <div className="activityImageWrapper">
                 <img src={activity.image} alt={activity.title} className="activityImage" loading="lazy" />
                 <span className="activityCategory">{activity.category}</span>
+                {index === 0 && <span className="activityLatestBadge">最新发布</span>}
               </div>
               <div className="activityContent">
                 <div className="activityDate">
@@ -183,7 +123,12 @@ const Activities: React.FC = () => {
                     </svg>
                     {activity.location}
                   </div>
-                  <a href={activity.wechatUrl} target={activity.wechatUrl === '#' ? '_self' : '_blank'} rel="noopener noreferrer" className="activityLink">
+                  <a 
+                    href={activity.wechatUrl} 
+                    target={activity.wechatUrl === '#' ? '_self' : '_blank'} 
+                    rel="noopener noreferrer" 
+                    className="activityLink"
+                  >
                     查看详情
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <polyline points="9 18 15 12 9 6" />
@@ -196,7 +141,12 @@ const Activities: React.FC = () => {
         </div>
 
         <div className="viewMoreWrapper">
-          <a href={feat.wechatUrl} target={feat.wechatUrl === '#' ? '_self' : '_blank'} rel="noopener noreferrer" className="viewMoreButton">
+          <a 
+            href={displayList[0]?.wechatUrl || '#'} 
+            target={displayList[0]?.wechatUrl === '#' ? '_self' : '_blank'} 
+            rel="noopener noreferrer" 
+            className="viewMoreButton"
+          >
             查看更多活动
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="5" y1="12" x2="19" y2="12" />

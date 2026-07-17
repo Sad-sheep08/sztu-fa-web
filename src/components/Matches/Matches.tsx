@@ -560,23 +560,12 @@ const Matches: React.FC = () => {
           </div>
 
           {seasons.length > 0 && (
-            <div className="seasonSelectorWrapper" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-color)' }}>📅 选择赛季:</span>
+            <div className="season-selector-container">
+              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>📅 选择赛季:</span>
               <select
                 value={selectedSeasonId}
                 onChange={(e) => setSelectedSeasonId(e.target.value)}
-                style={{
-                  padding: '8px 16px',
-                  borderRadius: '30px',
-                  border: '2px solid var(--border-color)',
-                  backgroundColor: 'var(--card-bg, #fff)',
-                  color: 'var(--text-color)',
-                  fontSize: '0.95rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  outline: 'none',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
+                className="season-select-element"
               >
                 {seasons.map(s => (
                   <option key={s.id} value={s.id}>
@@ -591,35 +580,14 @@ const Matches: React.FC = () => {
         {activeTab === 'matches' && (
           <>
             {/* 赛程过滤与排序工具栏 */}
-            <div style={{
-              display: 'flex',
-              gap: '15px',
-              flexWrap: 'wrap',
-              marginBottom: '25px',
-              padding: '15px 20px',
-              background: 'rgba(255, 255, 255, 0.4)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '16px',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: 'var(--shadow-sm)'
-            }}>
+            <div className="matches-filter-bar">
               {/* 球队筛选 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: '180px', flex: '1' }}>
+              <div className="filter-item-wrapper">
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>🛡️ 筛选球队</span>
                 <select
                   value={teamFilter}
                   onChange={(e) => setTeamFilter(e.target.value)}
-                  style={{
-                    padding: '8px 12px',
-                    borderRadius: '10px',
-                    border: '1px solid var(--border-color)',
-                    backgroundColor: 'var(--card-bg, #fff)',
-                    color: 'var(--text-color)',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className="filter-select"
                 >
                   <option value="">全部球队</option>
                   {availableTeams.map(t => (
@@ -629,22 +597,12 @@ const Matches: React.FC = () => {
               </div>
 
               {/* 比赛状态筛选 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: '150px', flex: '1' }}>
+              <div className="filter-item-wrapper">
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>⏳ 比赛状态</span>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                  style={{
-                    padding: '8px 12px',
-                    borderRadius: '10px',
-                    border: '1px solid var(--border-color)',
-                    backgroundColor: 'var(--card-bg, #fff)',
-                    color: 'var(--text-color)',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className="filter-select"
                 >
                   <option value="all">全部比赛</option>
                   <option value="scheduled">即将开始</option>
@@ -654,22 +612,12 @@ const Matches: React.FC = () => {
               </div>
 
               {/* 排序方式 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', minWidth: '150px', flex: '1' }}>
+              <div className="filter-item-wrapper">
                 <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-light)' }}>🔃 排序方式</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as SortOption)}
-                  style={{
-                    padding: '8px 12px',
-                    borderRadius: '10px',
-                    border: '1px solid var(--border-color)',
-                    backgroundColor: 'var(--card-bg, #fff)',
-                    color: 'var(--text-color)',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    outline: 'none',
-                    cursor: 'pointer'
-                  }}
+                  className="filter-select"
                 >
                   <option value="date-desc">按时间 (从近到远)</option>
                   <option value="date-asc">按时间 (从远到近)</option>

@@ -13,6 +13,7 @@ export interface Team {
   awayJersey: string;
   createdAt: string;
   updatedAt: string;
+  groupTeams?: { seasonId: string; groupName: string }[];
 }
 
 export interface Player {

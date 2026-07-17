@@ -88,7 +88,10 @@ const Teams: React.FC = () => {
         if (!active) return;
         setSeasons(seasonsList);
         
-        const activeSeason = seasonsList.find(s => s.status === 'active');
+        // 优先匹配该球队所参与/报名的活跃赛季
+        const teamSeasonIds = selectedTeam.groupTeams?.map((gt: any) => gt.seasonId) || [];
+        const matchedActiveSeason = seasonsList.find(s => s.status === 'active' && teamSeasonIds.includes(s.id));
+        const activeSeason = matchedActiveSeason || seasonsList.find(s => s.status === 'active');
         const activeId = activeSeason ? activeSeason.id : (seasonsList[0]?.id || '');
         setSelectedSeasonId(activeId);
       } catch (err) {

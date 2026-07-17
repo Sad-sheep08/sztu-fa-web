@@ -335,9 +335,13 @@ const Matches: React.FC = () => {
 
     // 渲染单场比赛卡片
     const renderMatchCard = (match: Match | undefined, round: string, index: number) => {
+      const side = round === 'R16' ? (index <= 4 ? 'left' : 'right') :
+                   round === 'QF' ? (index <= 2 ? 'left' : 'right') :
+                   round === 'SF' ? (index === 1 ? 'left' : 'right') : 'center';
+
       if (!match) {
         return (
-          <div className="bracketMatchCard emptyCard">
+          <div className={`bracketMatchCard emptyCard bracket-card-${round.toLowerCase()} bracket-card-${side} bracket-card-${round.toLowerCase()}-${index}`}>
             <div className="bracketMatchHeader">对阵 #{index}</div>
             <div className="bracketTeamRow">
               <span className="bracketTeamName">待定</span>
@@ -356,7 +360,7 @@ const Matches: React.FC = () => {
 
       return (
         <div 
-          className={`bracketMatchCard ${match.status === 'in_progress' ? 'ongoingMatch' : ''} ${match.status === 'completed' ? 'completedMatch' : ''}`}
+          className={`bracketMatchCard bracket-card-${round.toLowerCase()} bracket-card-${side} bracket-card-${round.toLowerCase()}-${index} ${match.status === 'in_progress' ? 'ongoingMatch' : ''} ${match.status === 'completed' ? 'completedMatch' : ''}`}
           onClick={() => {
             setSelectedMatchForModal(match);
             setModalTab('events');
@@ -410,40 +414,34 @@ const Matches: React.FC = () => {
       <div className="bracketContainer">
         {/* 左半翼 */}
         {hasR16 && (
-          <div className="bracketColumn">
+          <div className="bracketColumn r16-left-column">
             <div className="columnHeader">1/8 决赛</div>
             <div className="matchGroups">
               {renderMatchCard(findMatch('R16', 1), 'R16', 1)}
-              <div className="spacer small"></div>
               {renderMatchCard(findMatch('R16', 2), 'R16', 2)}
-              <div className="spacer large"></div>
               {renderMatchCard(findMatch('R16', 3), 'R16', 3)}
-              <div className="spacer small"></div>
               {renderMatchCard(findMatch('R16', 4), 'R16', 4)}
             </div>
           </div>
         )}
 
-        <div className="bracketColumn">
+        <div className="bracketColumn qf-left-column">
           <div className="columnHeader">1/4 决赛</div>
           <div className="matchGroups">
-            <div className="spacer medium"></div>
             {renderMatchCard(findMatch('QF', 1), 'QF', 1)}
-            <div className="spacer xlarge"></div>
             {renderMatchCard(findMatch('QF', 2), 'QF', 2)}
           </div>
         </div>
 
-        <div className="bracketColumn">
+        <div className="bracketColumn sf-left-column">
           <div className="columnHeader">半决赛</div>
           <div className="matchGroups">
-            <div className="spacer xxlarge"></div>
             {renderMatchCard(findMatch('SF', 1), 'SF', 1)}
           </div>
         </div>
 
         {/* 决赛 (中心) */}
-        <div className="bracketColumn centerColumn">
+        <div className="bracketColumn f-center-column centerColumn">
           <div className="columnHeader championHeader">🏆 决赛</div>
           <div className="matchGroups finalGroup">
             {renderMatchCard(findMatch('F', 1), 'F', 1)}
@@ -468,34 +466,28 @@ const Matches: React.FC = () => {
         </div>
 
         {/* 右半翼 */}
-        <div className="bracketColumn">
+        <div className="bracketColumn sf-right-column">
           <div className="columnHeader">半决赛</div>
           <div className="matchGroups">
-            <div className="spacer xxlarge"></div>
             {renderMatchCard(findMatch('SF', 2), 'SF', 2)}
           </div>
         </div>
 
-        <div className="bracketColumn">
+        <div className="bracketColumn qf-right-column">
           <div className="columnHeader">1/4 决赛</div>
           <div className="matchGroups">
-            <div className="spacer medium"></div>
             {renderMatchCard(findMatch('QF', 3), 'QF', 3)}
-            <div className="spacer xlarge"></div>
             {renderMatchCard(findMatch('QF', 4), 'QF', 4)}
           </div>
         </div>
 
         {hasR16 && (
-          <div className="bracketColumn">
+          <div className="bracketColumn r16-right-column">
             <div className="columnHeader">1/8 决赛</div>
             <div className="matchGroups">
               {renderMatchCard(findMatch('R16', 5), 'R16', 5)}
-              <div className="spacer small"></div>
               {renderMatchCard(findMatch('R16', 6), 'R16', 6)}
-              <div className="spacer large"></div>
               {renderMatchCard(findMatch('R16', 7), 'R16', 7)}
-              <div className="spacer small"></div>
               {renderMatchCard(findMatch('R16', 8), 'R16', 8)}
             </div>
           </div>

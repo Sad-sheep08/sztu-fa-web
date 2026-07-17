@@ -1605,9 +1605,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-xl);
+  gap: 60px;
   min-width: max-content;
-  padding: 0 var(--spacing-lg);
+  padding: 40px var(--spacing-lg);
 }
 
 .bracketColumn {
@@ -1615,11 +1615,12 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
-  width: 200px;
+  width: 220px;
+  position: relative;
 }
 
 .centerColumn {
-  width: 220px;
+  width: 240px;
 }
 
 .columnHeader {
@@ -1648,32 +1649,21 @@
   justify-content: space-around;
   height: 480px;
   position: relative;
+  width: 100%;
 }
 
 .finalGroup {
-  height: auto;
-  gap: var(--spacing-xl);
+  height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 24px;
 }
 
 /* Bracket Spacers for Vertical Alignment */
 .spacer {
-  flex-grow: 1;
-}
-.spacer.small {
-  height: 20px;
-}
-.spacer.medium {
-  height: 60px;
-}
-.spacer.large {
-  height: 100px;
-}
-.spacer.xlarge {
-  height: 140px;
-}
-.spacer.xxlarge {
-  height: 180px;
+  display: none;
 }
 
 /* Match Card */
@@ -1686,13 +1676,190 @@
   box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
 }
 
 .bracketMatchCard:hover {
   transform: translateY(-2px);
   border-color: var(--primary-color);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* Connection Lines Rules */
+/* Left side cards connector lines pointing right */
+.bracketMatchCard.bracket-card-left::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Right side cards connector lines pointing left */
+.bracketMatchCard.bracket-card-right::after {
+  content: '';
+  position: absolute;
+  left: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Left side QF receiving lines pointing left */
+.bracketMatchCard.bracket-card-qf.bracket-card-left::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Right side QF receiving lines pointing right */
+.bracketMatchCard.bracket-card-qf.bracket-card-right::before {
+  content: '';
+  position: absolute;
+  right: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Left side SF receiving lines pointing left */
+.bracketMatchCard.bracket-card-sf.bracket-card-left::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Right side SF receiving lines pointing right */
+.bracketMatchCard.bracket-card-sf.bracket-card-right::before {
+  content: '';
+  position: absolute;
+  right: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Center Final receiving lines from both sides */
+.bracketMatchCard.bracket-card-f::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.bracketMatchCard.bracket-card-f::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  width: 30px;
+  height: 2px;
+  background: var(--border-color);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Vertical connections on Column containers */
+/* Left QF Column connects QF1 and QF2 */
+.qf-left-column .matchGroups::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: 25%;
+  height: 50%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+/* Right QF Column connects QF3 and QF4 */
+.qf-right-column .matchGroups::after {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 25%;
+  height: 50%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+/* Left 1/8 (R16) Column connects R16 1-2 and R16 3-4 */
+.r16-left-column .matchGroups::before {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: 12.5%;
+  height: 25%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+.r16-left-column .matchGroups::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: 62.5%;
+  height: 25%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+/* Right 1/8 (R16) Column connects R16 5-6 and R16 7-8 */
+.r16-right-column .matchGroups::before {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 12.5%;
+  height: 25%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+.r16-right-column .matchGroups::after {
+  content: '';
+  position: absolute;
+  left: -30px;
+  top: 62.5%;
+  height: 25%;
+  width: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+/* Highlight connection colors on hover/winner */
+.bracketMatchCard:hover::after,
+.bracketMatchCard:hover::before {
+  background: var(--primary-color) !important;
 }
 
 .emptyCard {

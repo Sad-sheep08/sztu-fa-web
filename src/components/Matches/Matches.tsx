@@ -734,7 +734,10 @@ const Matches: React.FC = () => {
                                              e.eventType === 'penalty' ? '🎯' :
                                              e.eventType === 'yellow_card' ? '🟨' :
                                              e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
-                                             e.eventType === 'substitution' ? '🔄' : '📢';
+                                             e.eventType === 'substitution' ? '🔄' :
+                                             e.eventType === 'penalty_shootout_goal' ? '⚽' :
+                                             e.eventType === 'penalty_shootout_miss' ? '❌' :
+                                             e.eventType === 'penalty_miss' ? '❌' : '📢';
                                 return (
                                   <div key={i} className="timelineItem">
                                     <span className="eventTime">{e.eventTime}</span>
@@ -763,9 +766,9 @@ const Matches: React.FC = () => {
                                           {e.eventType === 'yellow_card' ? '黄牌' :
                                            e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                            e.eventType === 'goal' ? '进球' :
-                                           e.eventType === 'penalty' ? '点球' :
-                                           e.eventType === 'own_goal' ? '乌龙球' :
-                                           e.eventType === 'substitution' ? '换人' :
+                                           e.eventType === 'penalty_shootout_goal' ? '点球大战进球' :
+                                           e.eventType === 'penalty_shootout_miss' ? '点球大战罚失' :
+                                           e.eventType === 'penalty_miss' ? '点球罚失' :
                                            (e.description || '事件')}
                                           {e.eventType === 'goal' && e.assistPlayerName && (
                                             <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
@@ -805,7 +808,10 @@ const Matches: React.FC = () => {
                                              e.eventType === 'penalty' ? '🎯' :
                                              e.eventType === 'yellow_card' ? '🟨' :
                                              e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
-                                             e.eventType === 'substitution' ? '🔄' : '📢';
+                                             e.eventType === 'substitution' ? '🔄' :
+                                             e.eventType === 'penalty_shootout_goal' ? '⚽' :
+                                             e.eventType === 'penalty_shootout_miss' ? '❌' :
+                                             e.eventType === 'penalty_miss' ? '❌' : '📢';
                                 return (
                                   <div key={i} className="timelineItem">
                                     <span className="eventTime">{e.eventTime}</span>
@@ -834,9 +840,9 @@ const Matches: React.FC = () => {
                                           {e.eventType === 'yellow_card' ? '黄牌' :
                                            e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                            e.eventType === 'goal' ? '进球' :
-                                           e.eventType === 'penalty' ? '点球' :
-                                           e.eventType === 'own_goal' ? '乌龙球' :
-                                           e.eventType === 'substitution' ? '换人' :
+                                           e.eventType === 'penalty_shootout_goal' ? '点球大战进球' :
+                                           e.eventType === 'penalty_shootout_miss' ? '点球大战罚失' :
+                                           e.eventType === 'penalty_miss' ? '点球罚失' :
                                            (e.description || '事件')}
                                           {e.eventType === 'goal' && e.assistPlayerName && (
                                             <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>
@@ -1395,7 +1401,10 @@ const Matches: React.FC = () => {
                                          e.eventType === 'penalty' ? '🎯' :
                                          e.eventType === 'yellow_card' ? '🟨' :
                                          e.eventType === 'red_card' ? '🟥' : e.eventType === 'yellow_to_red' ? '\uD83D\uDFE8\uD83D\uDFE5' :
-                                         e.eventType === 'substitution' ? '🔄' : '📢';
+                                         e.eventType === 'substitution' ? '🔄' :
+                                         e.eventType === 'penalty_shootout_goal' ? '⚽' :
+                                         e.eventType === 'penalty_shootout_miss' ? '❌' :
+                                         e.eventType === 'penalty_miss' ? '❌' : '📢';
                             const isHome = e.teamType === 'home';
                             const teamName = isHome ? selectedMatchForModal.homeTeam.teamName : selectedMatchForModal.awayTeam.teamName;
                             const teamLogo = isHome ? selectedMatchForModal.homeTeam.teamLogo : selectedMatchForModal.awayTeam.teamLogo;
@@ -1437,9 +1446,9 @@ const Matches: React.FC = () => {
                                         {e.eventType === 'yellow_card' ? '黄牌' :
                                          e.eventType === 'red_card' ? '红牌' : e.eventType === 'yellow_to_red' ? '两黄变一红' :
                                          e.eventType === 'goal' ? '进球' :
-                                         e.eventType === 'penalty' ? '点球' :
-                                         e.eventType === 'own_goal' ? '乌龙球' :
-                                         e.eventType === 'substitution' ? '换人' :
+                                         e.eventType === 'penalty_shootout_goal' ? '点球大战进球' :
+                                         e.eventType === 'penalty_shootout_miss' ? '点球大战罚失' :
+                                         e.eventType === 'penalty_miss' ? '点球罚失' :
                                          (e.description || '事件')}
                                         {e.eventType === 'goal' && e.assistPlayerName && (
                                           <span style={{ fontSize: '0.85rem', color: 'var(--primary-color)', marginLeft: '6px', fontStyle: 'italic' }}>

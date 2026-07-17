@@ -1118,6 +1118,17 @@
   border: 1.5px solid rgba(220, 53, 69, 0.45);
 }
 
+.eventIcon-penalty_shootout_goal {
+  background-color: rgba(40, 167, 69, 0.12);
+  border: 1.5px solid rgba(40, 167, 69, 0.35);
+}
+
+.eventIcon-penalty_shootout_miss,
+.eventIcon-penalty_miss {
+  background-color: rgba(220, 53, 69, 0.12);
+  border: 1.5px solid rgba(220, 53, 69, 0.35);
+}
+
 .timelineEventCard {
   width: calc(50% - 25px);
   background-color: var(--bg-primary);

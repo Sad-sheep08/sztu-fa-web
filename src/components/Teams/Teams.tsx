@@ -22,17 +22,28 @@ const Teams: React.FC = () => {
   const [playersLoading, setPlayersLoading] = useState(false);
   const [rosterError, setRosterError] = useState<string | null>(null);
 
-  const loadTeams = useCallback(async (page: number, search?: string) => {
+  // 全局赛季与男女组别筛选状态
+  const [globalSeasons, setGlobalSeasons] = useState<any[]>([]);
+  const [globalSeasonId, setGlobalSeasonId] = useState<string>('all');
+  const [selectedGender, setSelectedGender] = useState<string>('all');
+
+  const loadTeams = useCallback(async (page: number, seasonId: string, gender: string, search?: string) => {
     setLoading(true);
     setError(null);
     try {
       if (search && search.trim()) {
         const results = await searchTeams(search);
-        setTeams(results);
-        setTotal(results.length);
+        const filtered = gender === 'all' ? results : results.filter(t => t.gender === gender);
+        setTeams(filtered);
+        setTotal(filtered.length);
         setIsSearching(true);
       } else {
-        const response = await fetchTeams(page, limit);
+        const response = await fetchTeams(
+          page, 
+          limit, 
+          seasonId === 'all' ? undefined : seasonId, 
+          gender === 'all' ? undefined : gender
+        );
         setTeams(response.data);
         setTotal(response.total);
         setIsSearching(false);
@@ -45,13 +56,31 @@ const Teams: React.FC = () => {
     }
   }, [limit]);
 
+  // 初始化加载赛季列表
   useEffect(() => {
-    loadTeams(1);
-  }, [loadTeams]);
+    const initSeasons = async () => {
+      try {
+        const seasonsList = await fetchSeasons();
+        setGlobalSeasons(seasonsList);
+        const activeSeason = seasonsList.find((s: any) => s.status === 'active');
+        if (activeSeason) {
+          setGlobalSeasonId(activeSeason.id);
+        }
+      } catch (err) {
+        console.error('获取赛季列表失败:', err);
+      }
+    };
+    initSeasons();
+  }, []);
+
+  // 筛选状态变化时重新加载
+  useEffect(() => {
+    loadTeams(currentPage, globalSeasonId, selectedGender, isSearching ? searchTerm : undefined);
+  }, [currentPage, globalSeasonId, selectedGender, loadTeams]);
 
   const handleSearch = () => {
     setCurrentPage(1);
-    loadTeams(1, searchTerm);
+    loadTeams(1, globalSeasonId, selectedGender, searchTerm);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -63,13 +92,12 @@ const Teams: React.FC = () => {
   const handleReset = () => {
     setSearchTerm('');
     setCurrentPage(1);
-    loadTeams(1);
+    loadTeams(1, globalSeasonId, selectedGender);
   };
 
   const handlePageChange = (page: number) => {
-    if (page >= 1 && (!isSearching || page === 1)) {
+    if (page >= 1) {
       setCurrentPage(page);
-      loadTeams(page, isSearching ? searchTerm : undefined);
     }
   };
 
@@ -187,8 +215,96 @@ const Teams: React.FC = () => {
           </button>
         </div>
 
+        {/* 赛季与男女组别筛选器 */}
+        <div className="filterControls" style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'center', margin: '20px 0 25px 0', padding: '15px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>选择赛季:</span>
+            <select
+              value={globalSeasonId}
+              onChange={(e) => {
+                setCurrentPage(1);
+                setGlobalSeasonId(e.target.value);
+              }}
+              style={{
+                background: '#1a1a1a',
+                color: '#fff',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: '6px',
+                padding: '6px 12px',
+                height: '38px',
+                outline: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="all">全部赛季 (All Seasons)</option>
+              {globalSeasons.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name} {s.status === 'active' ? '(当前活跃)' : ''}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#1a1a1a', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <button
+              onClick={() => {
+                setCurrentPage(1);
+                setSelectedGender('all');
+              }}
+              style={{
+                background: selectedGender === 'all' ? '#1890ff' : 'transparent',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '6px 16px',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                fontWeight: selectedGender === 'all' ? 600 : 400
+              }}
+            >
+              全部球队
+            </button>
+            <button
+              onClick={() => {
+                setCurrentPage(1);
+                setSelectedGender('MALE');
+              }}
+              style={{
+                background: selectedGender === 'MALE' ? '#1890ff' : 'transparent',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '6px 16px',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                fontWeight: selectedGender === 'MALE' ? 600 : 400
+              }}
+            >
+              男子组 (Men's)
+            </button>
+            <button
+              onClick={() => {
+                setCurrentPage(1);
+                setSelectedGender('FEMALE');
+              }}
+              style={{
+                background: selectedGender === 'FEMALE' ? '#1890ff' : 'transparent',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '6px 16px',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                fontWeight: selectedGender === 'FEMALE' ? 600 : 400
+              }}
+            >
+              女子组 (Women's)
+            </button>
+          </div>
+        </div>
+
         {/* 刷新按钮 */}
-        <button onClick={() => loadTeams(currentPage, isSearching ? searchTerm : undefined)} className="refreshButton">
+        <button onClick={() => loadTeams(currentPage, globalSeasonId, selectedGender, isSearching ? searchTerm : undefined)} className="refreshButton">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="23 4 23 10 17 10" />
             <polyline points="1 20 1 14 7 14" />
@@ -232,7 +348,21 @@ const Teams: React.FC = () => {
                   className={`teamCard ${selectedTeam?.id === team.id ? 'selected' : ''}`}
                   onClick={() => setSelectedTeam(team)}
                 >
-                  <div className="teamImageWrapper">
+                  <div className="teamImageWrapper" style={{ position: 'relative' }}>
+                    <span style={{
+                      position: 'absolute',
+                      top: '10px',
+                      right: '10px',
+                      background: team.gender === 'FEMALE' ? '#ff4d4f' : '#1890ff',
+                      color: '#fff',
+                      fontSize: '11px',
+                      padding: '2px 8px',
+                      borderRadius: '4px',
+                      zIndex: 2,
+                      fontWeight: 600
+                    }}>
+                      {team.gender === 'FEMALE' ? '女子组' : '男子组'}
+                    </span>
                     <img
                       src={team.teamLogo || 'https://picsum.photos/seed/team/300/200'}
                       alt={team.teamName}
@@ -340,6 +470,12 @@ const Teams: React.FC = () => {
               </div>
               <div className="modalContent">
                 <div className="modalInfoGrid">
+                  <div className="modalInfoItem">
+                    <span className="modalInfoLabel">球队组别</span>
+                    <span className="modalInfoValue" style={{ color: selectedTeam.gender === 'FEMALE' ? '#ff4d4f' : '#1890ff', fontWeight: 600 }}>
+                      {selectedTeam.gender === 'FEMALE' ? '女子组' : '男子组'}
+                    </span>
+                  </div>
                   <div className="modalInfoItem coachInfoItem">
                     <span className="modalInfoLabel">主教练</span>
                     <span className="modalInfoValue">{selectedTeam.headCoach || '暂无'}</span>

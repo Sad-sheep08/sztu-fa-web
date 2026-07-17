@@ -11,6 +11,7 @@ export interface Team {
   teamLogo: string;
   homeJersey: string;
   awayJersey: string;
+  gender?: string;
   createdAt: string;
   updatedAt: string;
   groupTeams?: { seasonId: string; groupName: string }[];
@@ -43,7 +44,7 @@ export interface MatchEvent {
   id: string;
   matchId: string;
   eventTime: string;
-  eventType: 'goal' | 'own_goal' | 'penalty' | 'yellow_card' | 'red_card' | 'yellow_to_red' | 'substitution';
+  eventType: 'goal' | 'own_goal' | 'penalty' | 'yellow_card' | 'red_card' | 'yellow_to_red' | 'substitution' | 'penalty_shootout_goal' | 'penalty_shootout_miss' | 'penalty_miss';
   playerId?: string | null;
   playerName?: string | null;
   jerseyNumber?: string | null;

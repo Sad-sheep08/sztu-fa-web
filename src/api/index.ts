@@ -4,9 +4,18 @@ const BASE_URL = '/api';
 
 export async function fetchTeams(
   page: number = 1,
-  limit: number = 10
+  limit: number = 10,
+  seasonId?: string,
+  gender?: string
 ): Promise<PaginatedResponse<Team>> {
-  const response = await fetch(`${BASE_URL}/teams?page=${page}&limit=${limit}`);
+  let url = `${BASE_URL}/teams?page=${page}&limit=${limit}`;
+  if (seasonId) {
+    url += `&seasonId=${seasonId}`;
+  }
+  if (gender) {
+    url += `&gender=${gender}`;
+  }
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('获取球队列表失败');
   }

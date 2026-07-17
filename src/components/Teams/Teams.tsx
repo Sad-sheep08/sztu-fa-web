@@ -78,6 +78,24 @@ const Teams: React.FC = () => {
     loadTeams(currentPage, globalSeasonId, selectedGender, isSearching ? searchTerm : undefined);
   }, [currentPage, globalSeasonId, selectedGender, loadTeams]);
 
+  // 处理性别 Tab 切换，防止不同赛季混淆显示
+  const handleGenderTabChange = (gender: string) => {
+    setCurrentPage(1);
+    setSelectedGender(gender);
+    
+    // 如果切换 Tab 导致当前选中的 globalSeasonId 变成无效（例如：男子组 Tab 下选了女子组赛季），重置为 'all'
+    if (globalSeasonId !== 'all') {
+      const selectedSeason = globalSeasons.find(s => s.id === globalSeasonId);
+      if (selectedSeason) {
+        const isInvalid = (gender === 'FEMALE' && (selectedSeason.name.includes('男') || selectedSeason.name.includes('男子'))) ||
+                          (gender === 'MALE' && (selectedSeason.name.includes('女') || selectedSeason.name.includes('女子')));
+        if (isInvalid) {
+          setGlobalSeasonId('all');
+        }
+      }
+    }
+  };
+
   const handleSearch = () => {
     setCurrentPage(1);
     loadTeams(1, globalSeasonId, selectedGender, searchTerm);
@@ -114,13 +132,22 @@ const Teams: React.FC = () => {
       try {
         const seasonsList = await fetchSeasons();
         if (!active) return;
-        setSeasons(seasonsList);
+        
+        // 过滤不属于当前球队性别的赛季，隔离男女队名册赛季
+        const filteredSeasons = seasonsList.filter((s: any) => {
+          if (selectedTeam.gender === 'FEMALE') {
+            return !s.name.includes('男') && !s.name.includes('男子');
+          } else {
+            return !s.name.includes('女') && !s.name.includes('女子');
+          }
+        });
+        setSeasons(filteredSeasons);
         
         // 优先匹配该球队所参与/报名的活跃赛季
         const teamSeasonIds = selectedTeam.groupTeams?.map((gt: any) => gt.seasonId) || [];
-        const matchedActiveSeason = seasonsList.find(s => s.status === 'active' && teamSeasonIds.includes(s.id));
-        const activeSeason = matchedActiveSeason || seasonsList.find(s => s.status === 'active');
-        const activeId = activeSeason ? activeSeason.id : (seasonsList[0]?.id || '');
+        const matchedActiveSeason = filteredSeasons.find(s => s.status === 'active' && teamSeasonIds.includes(s.id));
+        const activeSeason = matchedActiveSeason || filteredSeasons.find(s => s.status === 'active');
+        const activeId = activeSeason ? activeSeason.id : (filteredSeasons[0]?.id || '');
         setSelectedSeasonId(activeId);
       } catch (err) {
         console.error('获取赛季列表失败:', err);
@@ -237,20 +264,26 @@ const Teams: React.FC = () => {
               }}
             >
               <option value="all">全部赛季 (All Seasons)</option>
-              {globalSeasons.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name} {s.status === 'active' ? '(当前活跃)' : ''}
-                </option>
-              ))}
+              {globalSeasons
+                .filter((s) => {
+                  if (selectedGender === 'FEMALE') {
+                    return !s.name.includes('男') && !s.name.includes('男子');
+                  } else if (selectedGender === 'MALE') {
+                    return !s.name.includes('女') && !s.name.includes('女子');
+                  }
+                  return true;
+                })
+                .map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.name} {s.status === 'active' ? '(当前活跃)' : ''}
+                  </option>
+                ))}
             </select>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#1a1a1a', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <button
-              onClick={() => {
-                setCurrentPage(1);
-                setSelectedGender('all');
-              }}
+              onClick={() => handleGenderTabChange('all')}
               style={{
                 background: selectedGender === 'all' ? '#1890ff' : 'transparent',
                 color: '#fff',
@@ -265,10 +298,7 @@ const Teams: React.FC = () => {
               全部球队
             </button>
             <button
-              onClick={() => {
-                setCurrentPage(1);
-                setSelectedGender('MALE');
-              }}
+              onClick={() => handleGenderTabChange('MALE')}
               style={{
                 background: selectedGender === 'MALE' ? '#1890ff' : 'transparent',
                 color: '#fff',
@@ -283,10 +313,7 @@ const Teams: React.FC = () => {
               男子组 (Men's)
             </button>
             <button
-              onClick={() => {
-                setCurrentPage(1);
-                setSelectedGender('FEMALE');
-              }}
+              onClick={() => handleGenderTabChange('FEMALE')}
               style={{
                 background: selectedGender === 'FEMALE' ? '#1890ff' : 'transparent',
                 color: '#fff',

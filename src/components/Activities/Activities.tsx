@@ -49,7 +49,6 @@ const mockActivities: Activity[] = [
 
 const Activities: React.FC = () => {
   const [newsList, setNewsList] = useState<News[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadNewsData = async () => {
@@ -60,8 +59,6 @@ const Activities: React.FC = () => {
         }
       } catch (err) {
         console.error('获取前台资讯列表失败，采用本地 Mock 数据 fallback:', err);
-      } finally {
-        setIsLoading(false);
       }
     };
     loadNewsData();

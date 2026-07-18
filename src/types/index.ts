@@ -62,6 +62,53 @@ export interface MatchEvent {
   createdAt: string;
 }
 
+export interface MatchLineup {
+  id?: string;
+  playerId: string;
+  teamType: 'home' | 'away';
+  lineupType: 'starting' | 'substitute';
+  player?: Pick<Player, 'id' | 'name' | 'jerseyNumber' | 'photo'>;
+}
+
+export interface StandingRow {
+  teamId: string;
+  teamName: string;
+  teamLogo: string;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+}
+
+export interface CupStandings {
+  type: 'CUP';
+  groups: Record<string, StandingRow[]>;
+}
+
+export interface PlayerCareerSeason {
+  seasonName: string;
+  appearances?: number;
+  goals?: number;
+  assists?: number;
+  yellowCards?: number;
+  redCards?: number;
+}
+
+export interface PlayerCareerResponse {
+  player?: Player & { team?: Team };
+  career?: PlayerCareerSeason[];
+}
+
+export interface SeasonStats {
+  scorers?: Array<{ playerId?: string; playerName: string; jerseyNumber: string; teamName: string; teamLogo: string; goals: number }>;
+  assists?: Array<{ playerId?: string; playerName: string; jerseyNumber: string; teamName: string; teamLogo: string; assists: number }>;
+  cards?: unknown[];
+}
+
 export interface Match {
   id: string;
   homeTeamId: string;
@@ -78,7 +125,7 @@ export interface Match {
   mvpPlayerId?: string | null;
   mvpPlayerName?: string | null;
   seasonId?: string | null;
-  lineups?: any[];
+  lineups?: MatchLineup[];
   stage?: string;
   groupName?: string;
   knockoutRound?: string;
@@ -120,4 +167,5 @@ export interface Season {
   id: string;
   name: string;
   status: string;
+  type?: string;
 }

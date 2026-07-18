@@ -1,7 +1,8 @@
 import React from 'react';
+import type { CupStandings, StandingRow } from '../../../types';
 
 interface LeagueStandingsProps {
-  standings: any;
+  standings: StandingRow[] | CupStandings;
   statsLoading: boolean;
 }
 
@@ -16,7 +17,7 @@ export const LeagueStandings: React.FC<LeagueStandingsProps> = ({
           <div className="loadingSpinner"></div>
           <p>正在计算积分榜...</p>
         </div>
-      ) : standings && standings.type === 'CUP' && standings.groups ? (
+      ) : !Array.isArray(standings) && standings.type === 'CUP' && standings.groups ? (
         <div className="cupGroupsContainer">
           {Object.keys(standings.groups).sort().map(groupName => {
             const groupRows = standings.groups[groupName];
@@ -38,7 +39,7 @@ export const LeagueStandings: React.FC<LeagueStandingsProps> = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {groupRows.map((row: any, index: number) => {
+                      {groupRows.map((row, index: number) => {
                         let rankClass = '';
                         if (index === 0) rankClass = 'rank-gold';
                         else if (index === 1) rankClass = 'rank-silver';

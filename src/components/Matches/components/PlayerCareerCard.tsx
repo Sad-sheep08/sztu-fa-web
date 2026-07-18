@@ -1,9 +1,10 @@
 import React from 'react';
+import type { CareerData } from '../utils/matchData';
 
 interface PlayerCareerCardProps {
   careerPlayerId: string | null;
   careerPlayerName: string;
-  careerData: any;
+  careerData: CareerData | null;
   careerLoading: boolean;
   onClose: () => void;
 }
@@ -125,7 +126,7 @@ export const PlayerCareerCard: React.FC<PlayerCareerCardProps> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {careerData.seasons.map((s: any, idx: number) => (
+                  {careerData.seasons.map((s, idx: number) => (
                     <tr key={idx} style={{ borderBottom: idx === careerData.seasons.length - 1 ? 'none' : '1px solid rgba(0,0,0,0.05)', background: idx % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.2)' }}>
                       <td style={{ padding: '10px 8px', fontWeight: 500 }}>{s.seasonName}</td>
                       <td style={{ padding: '10px 8px' }}>{s.matchesPlayed}</td>

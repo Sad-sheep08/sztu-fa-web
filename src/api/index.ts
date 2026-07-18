@@ -1,4 +1,4 @@
-import type { Team, Player, Match, PaginatedResponse, TeamWithPlayers, News, Season } from '../types';
+import type { Team, Player, Match, PaginatedResponse, TeamWithPlayers, News, Season, PlayerCareerResponse, StandingRow, CupStandings, SeasonStats } from '../types';
 
 const BASE_URL = '/api';
 
@@ -94,7 +94,7 @@ export async function fetchSeasons(): Promise<Season[]> {
   return response.json();
 }
 
-export async function fetchPlayerCareer(id: string): Promise<any> {
+export async function fetchPlayerCareer(id: string): Promise<PlayerCareerResponse> {
   const response = await fetch(`${BASE_URL}/players/${id}/career`);
   if (!response.ok) {
     throw new Error('获取球员生涯数据失败');
@@ -161,7 +161,7 @@ export async function fetchTeamPlayersBySeason(teamId: string, seasonId?: string
   return response.json();
 }
 
-export async function fetchSeasonStandings(seasonId: string): Promise<any[]> {
+export async function fetchSeasonStandings(seasonId: string): Promise<StandingRow[] | CupStandings> {
   const response = await fetch(`${BASE_URL}/seasons/${seasonId}/standings`);
   if (!response.ok) {
     throw new Error('获取赛季积分榜失败');
@@ -169,7 +169,7 @@ export async function fetchSeasonStandings(seasonId: string): Promise<any[]> {
   return response.json();
 }
 
-export async function fetchSeasonStats(seasonId: string): Promise<any> {
+export async function fetchSeasonStats(seasonId: string): Promise<SeasonStats> {
   const response = await fetch(`${BASE_URL}/seasons/${seasonId}/stats`);
   if (!response.ok) {
     throw new Error('获取赛季榜单数据失败');

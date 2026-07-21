@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface MatchPaginationProps {
+interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-export const MatchPagination: React.FC<MatchPaginationProps> = ({ currentPage, totalPages, onPageChange }) => (
+export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => (
   <div className="pagination">
     <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className="paginationButton">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>

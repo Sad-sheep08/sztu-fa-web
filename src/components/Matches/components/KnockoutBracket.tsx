@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoadingSpinner } from '../../common';
 import type { Match } from '../../../types';
 
 interface KnockoutBracketProps {
@@ -17,10 +18,7 @@ export const KnockoutBracket: React.FC<KnockoutBracketProps> = ({
   if (bracketLoading) {
     return (
       <div className="bracketSection">
-        <div className="loadingContainer">
-          <div className="loadingSpinner"></div>
-          <p>正在加载对阵图...</p>
-        </div>
+        <LoadingSpinner message="正在加载对阵图..." />
       </div>
     );
   }

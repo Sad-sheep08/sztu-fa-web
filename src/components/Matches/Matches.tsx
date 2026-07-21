@@ -6,8 +6,10 @@ import { KnockoutBracket } from './components/KnockoutBracket';
 import { ScorerBoard } from './components/ScorerBoard';
 import { MatchDetailModal } from './components/MatchDetailModal';
 import { MatchList } from './components/MatchList';
-import { PlayerCareerCard } from './components/PlayerCareerCard';
-import { useMatchDirectory, usePlayerCareer, useSeasonCompetition } from './hooks';
+import { PlayerCareerCard } from '../Player';
+import { useMatchDirectory, useSeasonCompetition } from './hooks';
+import { usePlayerCareer } from '../../hooks/usePlayerCareer';
+import { SectionHeader, SeasonSelector } from '../common';
 
 const Matches: React.FC = () => {
   const directory = useMatchDirectory();
@@ -27,11 +29,12 @@ const Matches: React.FC = () => {
   return (
     <section className="matches" id="matches">
       <div className="matchesContainer">
-        <div className="sectionHeader">
-          <span className="sectionTag">赛事公告</span>
-          <h2 className="sectionTitle">赛事<span>安排</span></h2>
-          <p className="sectionDescription">了解最新赛事安排，见证精彩对决</p>
-        </div>
+        <SectionHeader
+          tag="赛事公告"
+          title="赛事"
+          emphasis="安排"
+          description="了解最新赛事安排，见证精彩对决"
+        />
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px', marginBottom: '30px' }}>
           <div className="matchesTabs" style={{ margin: 0 }}>
@@ -57,13 +60,11 @@ const Matches: React.FC = () => {
           {directory.seasons.length > 0 && (
             <div className="season-selector-container">
               <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-primary)' }}>📅 选择赛季:</span>
-              <select value={directory.selectedSeasonId} onChange={(event) => directory.setSelectedSeasonId(event.target.value)} className="season-select-element">
-                {directory.seasons.map((season) => (
-                  <option key={season.id} value={season.id}>
-                    {season.name} {season.status === 'active' ? '(当前赛季)' : '(往期归档)'}
-                  </option>
-                ))}
-              </select>
+              <SeasonSelector
+                seasons={directory.seasons}
+                selectedSeasonId={directory.selectedSeasonId}
+                onChange={directory.setSelectedSeasonId}
+              />
             </div>
           )}
         </div>

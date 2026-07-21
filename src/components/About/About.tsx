@@ -1,4 +1,5 @@
 import './About.css';
+import { SectionHeader } from '../common';
 
 interface Feature {
   icon: React.ReactNode;
@@ -50,15 +51,12 @@ const About: React.FC = () => {
   return (
     <section className="about" id="about">
       <div className="aboutContainer">
-        <div className="sectionHeader">
-          <span className="sectionTag">关于我们</span>
-          <h2 className="sectionTitle">
-            深圳技术大学<span>足球协会</span>
-          </h2>
-          <p className="sectionDescription">
-            致力于推广校园足球文化，培养学生足球兴趣，提高足球技术水平
-          </p>
-        </div>
+        <SectionHeader
+          tag="关于我们"
+          title="深圳技术大学"
+          emphasis="足球协会"
+          description="致力于推广校园足球文化，培养学生足球兴趣，提高足球技术水平"
+        />
 
         <div className="aboutContent">
           <div className="aboutImageWrapper">

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { fetchPlayerCareer } from '../../../api';
-import { buildCareerData, type CareerData } from '../utils/matchData';
+import { fetchPlayerCareer } from '../api';
+import { buildCareerData, type CareerData } from '../components/Matches/utils/matchData';
 
 export const usePlayerCareer = () => {
   const [careerPlayerId, setCareerPlayerId] = useState<string | null>(null);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoadingSpinner } from '../../common';
 
 export interface ScorerRow {
   playerId?: string;
@@ -39,10 +40,7 @@ export const ScorerBoard: React.FC<ScorerBoardProps> = ({
       {activeTab === 'scorers' && (
         <div className="scorersSection">
           {statsLoading ? (
-            <div className="loadingContainer">
-              <div className="loadingSpinner"></div>
-              <p>正在计算射手榜...</p>
-            </div>
+            <LoadingSpinner message="正在计算射手榜..." />
           ) : (
             <div className="scorersTableContainer">
               <table className="scorersTable">
@@ -109,10 +107,7 @@ export const ScorerBoard: React.FC<ScorerBoardProps> = ({
       {activeTab === 'assists' && (
         <div className="scorersSection">
           {statsLoading ? (
-            <div className="loadingContainer">
-              <div className="loadingSpinner"></div>
-              <p>正在计算助攻榜...</p>
-            </div>
+            <LoadingSpinner message="正在计算助攻榜..." />
           ) : (
             <div className="scorersTableContainer">
               <table className="scorersTable">

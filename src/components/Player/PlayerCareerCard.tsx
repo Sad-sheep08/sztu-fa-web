@@ -1,5 +1,5 @@
 import React from 'react';
-import type { CareerData } from '../utils/matchData';
+import type { CareerData } from '../Matches/utils/matchData';
 
 interface PlayerCareerCardProps {
   careerPlayerId: string | null;
@@ -31,7 +31,7 @@ export const PlayerCareerCard: React.FC<PlayerCareerCardProps> = ({
           border: '1px solid rgba(255, 255, 255, 0.3)',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
           borderRadius: '24px',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <button className="matchModalClose" onClick={onClose}>
@@ -57,7 +57,7 @@ export const PlayerCareerCard: React.FC<PlayerCareerCardProps> = ({
                   borderRadius: '50%',
                   objectFit: 'cover',
                   boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
-                  flexShrink: 0
+                  flexShrink: 0,
                 }} />
               ) : (
                 <div style={{
@@ -72,7 +72,7 @@ export const PlayerCareerCard: React.FC<PlayerCareerCardProps> = ({
                   boxShadow: '0 8px 16px rgba(0,0,0,0.1)',
                   color: '#fff',
                   fontWeight: 'bold',
-                  flexShrink: 0
+                  flexShrink: 0,
                 }}>
                   {careerData.jerseyNumber || '#'}
                 </div>

@@ -1,4 +1,5 @@
 import type { Season } from '../../types';
+import { SeasonSelector } from '../common';
 
 interface TeamFiltersProps {
   globalSeasons: Season[];
@@ -60,36 +61,16 @@ const TeamFilters: React.FC<TeamFiltersProps> = ({
       <div className="filterControls" style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'center', margin: '20px 0 25px 0', padding: '15px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>选择赛季:</span>
-          <select
-            value={globalSeasonId}
-            onChange={(e) => onSeasonChange(e.target.value)}
-            style={{
-              background: '#1a1a1a',
-              color: '#fff',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '6px',
-              padding: '6px 12px',
-              height: '38px',
-              outline: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            <option value="all">全部赛季 (All Seasons)</option>
-            {globalSeasons
-              .filter((s) => {
-                if (selectedGender === 'FEMALE') {
-                  return !s.name.includes('男') && !s.name.includes('男子');
-                } else if (selectedGender === 'MALE') {
-                  return !s.name.includes('女') && !s.name.includes('女子');
-                }
-                return true;
-              })
-              .map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name} {s.status === 'active' ? '(当前活跃)' : ''}
-                </option>
-              ))}
-          </select>
+          <SeasonSelector
+            seasons={globalSeasons.filter((s) => {
+              if (selectedGender === 'FEMALE') return !s.name.includes('男') && !s.name.includes('男子');
+              if (selectedGender === 'MALE') return !s.name.includes('女') && !s.name.includes('女子');
+              return true;
+            })}
+            selectedSeasonId={globalSeasonId}
+            onChange={onSeasonChange}
+            includeAllOption
+          />
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#1a1a1a', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
@@ -109,7 +90,7 @@ const TeamFilters: React.FC<TeamFiltersProps> = ({
                 padding: '6px 16px',
                 cursor: 'pointer',
                 transition: 'all 0.3s',
-                fontWeight: selectedGender === value ? 600 : 400
+                fontWeight: selectedGender === value ? 600 : 400,
               }}
             >
               {label}

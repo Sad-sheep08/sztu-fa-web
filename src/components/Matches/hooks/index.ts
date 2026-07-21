@@ -1,3 +1,3 @@
 export { useMatchDirectory } from './useMatchDirectory';
 export { useSeasonCompetition } from './useSeasonCompetition';
-export { usePlayerCareer } from './usePlayerCareer';
+// usePlayerCareer 已迁移至 src/hooks/usePlayerCareer.ts

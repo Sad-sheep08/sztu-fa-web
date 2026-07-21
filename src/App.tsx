@@ -1,3 +1,4 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -6,7 +7,7 @@ import Teams from './components/Teams';
 import Matches from './components/Matches';
 import Footer from './components/Footer';
 
-function App() {
+function HomePage() {
   return (
     <div className="app">
       <Header />
@@ -19,6 +20,15 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

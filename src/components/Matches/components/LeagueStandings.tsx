@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoadingSpinner } from '../../common';
 import type { CupStandings, StandingRow } from '../../../types';
 
 interface LeagueStandingsProps {
@@ -13,10 +14,7 @@ export const LeagueStandings: React.FC<LeagueStandingsProps> = ({
   return (
     <div className="standingsSection">
       {statsLoading ? (
-        <div className="loadingContainer">
-          <div className="loadingSpinner"></div>
-          <p>正在计算积分榜...</p>
-        </div>
+        <LoadingSpinner message="正在计算积分榜..." />
       ) : !Array.isArray(standings) && standings.type === 'CUP' && standings.groups ? (
         <div className="cupGroupsContainer">
           {Object.keys(standings.groups).sort().map(groupName => {

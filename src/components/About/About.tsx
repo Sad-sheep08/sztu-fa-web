@@ -6,6 +6,19 @@ interface Feature {
   text: string;
 }
 
+interface StatItem {
+  value: string;
+  suffix: string;
+  label: string;
+}
+
+const stats: StatItem[] = [
+  { value: '2017', suffix: '年', label: '成立年份' },
+  { value: '5',   suffix: '场', label: '举办赛事' },
+  { value: '8',   suffix: '支', label: '参赛球队' },
+  { value: '200',   suffix: '名', label: '覆盖球员' },
+];
+
 const features: Feature[] = [
   {
     icon: (
@@ -91,6 +104,15 @@ const About: React.FC = () => {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="aboutStats">
+          {stats.map((stat) => (
+            <div key={stat.label} className="statItem">
+              <div className="statLabel">{stat.label}</div>
+              <div className="statNumber">{stat.value}<span>{stat.suffix}</span></div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

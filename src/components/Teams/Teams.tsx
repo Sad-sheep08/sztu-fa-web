@@ -34,10 +34,8 @@ const Teams: React.FC = () => {
         <TeamFilters
           globalSeasons={directory.globalSeasons}
           globalSeasonId={directory.globalSeasonId}
-          selectedGender={directory.selectedGender}
           searchTerm={directory.searchTerm}
           onSeasonChange={directory.changeSeason}
-          onGenderChange={directory.changeGender}
           onSearchTermChange={directory.setSearchTerm}
           onSearch={directory.search}
           onReset={directory.reset}

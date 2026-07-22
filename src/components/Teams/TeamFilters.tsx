@@ -4,10 +4,8 @@ import { SeasonSelector } from '../common';
 interface TeamFiltersProps {
   globalSeasons: Season[];
   globalSeasonId: string;
-  selectedGender: string;
   searchTerm: string;
   onSeasonChange: (seasonId: string) => void;
-  onGenderChange: (gender: string) => void;
   onSearchTermChange: (term: string) => void;
   onSearch: () => void;
   onReset: () => void;
@@ -17,10 +15,8 @@ interface TeamFiltersProps {
 const TeamFilters: React.FC<TeamFiltersProps> = ({
   globalSeasons,
   globalSeasonId,
-  selectedGender,
   searchTerm,
   onSeasonChange,
-  onGenderChange,
   onSearchTermChange,
   onSearch,
   onReset,
@@ -57,45 +53,16 @@ const TeamFilters: React.FC<TeamFiltersProps> = ({
         </button>
       </div>
 
-      {/* 赛季与男女组别筛选器 */}
+      {/* 赛季筛选器 */}
       <div className="filterControls" style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'center', margin: '20px 0 25px 0', padding: '15px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.7)' }}>选择赛季:</span>
           <SeasonSelector
-            seasons={globalSeasons.filter((s) => {
-              if (selectedGender === 'FEMALE') return !s.name.includes('男') && !s.name.includes('男子');
-              if (selectedGender === 'MALE') return !s.name.includes('女') && !s.name.includes('女子');
-              return true;
-            })}
+            seasons={globalSeasons}
             selectedSeasonId={globalSeasonId}
             onChange={onSeasonChange}
             includeAllOption
           />
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', background: '#1a1a1a', padding: '4px', borderRadius: '8px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          {[
-            { value: 'all', label: '全部球队' },
-            { value: 'MALE', label: "男子组 (Men's)" },
-            { value: 'FEMALE', label: "女子组 (Women's)" },
-          ].map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => onGenderChange(value)}
-              style={{
-                background: selectedGender === value ? '#1890ff' : 'transparent',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '6px 16px',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                fontWeight: selectedGender === value ? 600 : 400,
-              }}
-            >
-              {label}
-            </button>
-          ))}
         </div>
       </div>
     </>
